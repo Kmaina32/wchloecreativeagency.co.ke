@@ -20,6 +20,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useAdmin } from '@/hooks/use-admin';
 
 const navLinks = [
+  { href: '/', label: 'Home' },
   { href: '/talent', label: 'Talent' },
   { href: '/blog', label: 'Blog' },
   { href: '/talent-match', label: 'Talent Match' },
@@ -34,6 +35,9 @@ export default function Header() {
   const { isAdmin, isAdminLoading } = useAdmin();
 
   const isNavLinkActive = (href: string) => {
+    if (href === '/') {
+        return pathname === href;
+    }
     return pathname.startsWith(href);
   };
   

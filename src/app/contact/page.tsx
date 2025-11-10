@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useFirestore, addDocumentNonBlocking } from '@/firebase';
+import { collection, serverTimestamp } from 'firebase/firestore';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Please enter your name." }),
@@ -22,16 +24,41 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export default function ContactPage() {
     const { toast } = useToast();
-    const { register, handleSubmit, formState: { errors } } = useForm<ContactFormValues>({
+    const firestore = useFirestore();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormValues>({
         resolver: zodResolver(contactFormSchema),
     });
 
-    const onSubmit: SubmitHandler<ContactFormValues> = (data) => {
-        console.log(data);
-        toast({
-            title: "Message Sent!",
-            description: "Thank you for reaching out. We'll get back to you shortly.",
-        });
+    const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
+        if (!firestore) {
+            toast({
+                variant: "destructive",
+                title: "Database not available",
+                description: "We couldn't connect to our services. Please try again later.",
+            });
+            return;
+        }
+
+        try {
+            const messagesCol = collection(firestore, 'messages');
+            await addDocumentNonBlocking(messagesCol, {
+                ...data,
+                createdAt: serverTimestamp(),
+                read: false,
+            });
+
+            toast({
+                title: "Message Sent!",
+                description: "Thank you for reaching out. We'll get back to you shortly.",
+            });
+            reset();
+        } catch (error: any) {
+             toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: error.message || "Could not send your message.",
+            });
+        }
     };
 
   return (

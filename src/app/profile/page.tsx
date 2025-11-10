@@ -133,12 +133,12 @@ export default function ProfilePage() {
                 </div>
               </div>
               
-              <Button asChild className="mt-6 w-full">
+              {/* <Button asChild className="mt-6 w-full">
                 <Link href="/profile/edit">
                     <Edit className="mr-2 h-4 w-4" />
                     Edit Profile
                 </Link>
-              </Button>
+              </Button> */}
             </CardContent>
           </Card>
         </div>
@@ -194,7 +194,7 @@ export default function ProfilePage() {
               })}
             </div>
             {(!talent.portfolio || talent.portfolio.length === 0) && (
-              <p className="text-muted-foreground">You haven't added any portfolio items yet. <Link href="/profile/edit" className="text-primary underline">Add some now</Link>.</p>
+              <p className="text-muted-foreground">You haven't added any portfolio items yet.</p>
             )}
           </div>
         </div>

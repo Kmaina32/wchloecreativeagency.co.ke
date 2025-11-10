@@ -120,7 +120,7 @@ export default function Home() {
                <Link href="/contact">Contact Us</Link>
              </Button>
              <Button asChild size="lg" variant="outline">
-               <Link href="/join">Join as Talent</Link>
+               <Link href="/signup">Join as Talent</Link>
              </Button>
            </div>
         </div>

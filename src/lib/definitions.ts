@@ -18,6 +18,7 @@ export type Talent = {
   profileImage: string; // Corresponds to an ID in placeholder-images.json
   approved: boolean;
   createdAt: any;
+  rateCard?: string;
 };
 
 export type BlogPost = {

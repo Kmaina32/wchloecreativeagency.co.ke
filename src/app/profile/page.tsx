@@ -115,9 +115,9 @@ export default function ProfilePage() {
               <p className="text-primary font-semibold text-lg capitalize">{talent.category}</p>
               
               <div className="flex justify-center space-x-4 mt-4 text-muted-foreground">
-                {talent.socials?.instagram && <Link href={talent.socials.instagram} className="hover:text-primary"><Instagram /></Link>}
-                {talent.socials?.twitter && <Link href={talent.socials.twitter} className="hover:text-primary"><Twitter /></Link>}
-                {talent.socials?.tiktok && <Link href={talent.socials.tiktok} className="hover:text-primary"><Music /></Link>}
+                {talent.socials?.instagram && <Link href={talent.socials.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-primary"><Instagram /></Link>}
+                {talent.socials?.twitter && <Link href={talent.socials.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-primary"><Twitter /></Link>}
+                {talent.socials?.tiktok && <Link href={talent.socials.tiktok} target="_blank" rel="noopener noreferrer" className="hover:text-primary"><Music /></Link>}
               </div>
 
               <Separator className="my-6" />
@@ -133,12 +133,12 @@ export default function ProfilePage() {
                 </div>
               </div>
               
-              {/* <Button asChild className="mt-6 w-full">
+               <Button asChild className="mt-6 w-full">
                 <Link href="/profile/edit">
                     <Edit className="mr-2 h-4 w-4" />
                     Edit Profile
                 </Link>
-              </Button> */}
+              </Button> 
             </CardContent>
           </Card>
         </div>
@@ -155,13 +155,25 @@ export default function ProfilePage() {
             <h2 className="font-headline text-2xl font-semibold mb-4">Rate Card</h2>
             <Card>
                 <CardContent className="pt-6">
+                    {talent.rateCard ? (
+                         <div className="flex items-center gap-4">
+                            <FileText className="h-8 w-8 text-primary" />
+                            <div>
+                                <p className="font-semibold">Your Rate Card is available.</p>
+                                <Button variant="link" asChild className="p-0 h-auto">
+                                    <a href={talent.rateCard} target="_blank" rel="noopener noreferrer">View or Download</a>
+                                </Button>
+                            </div>
+                         </div>
+                    ) : (
                      <div className="flex items-center justify-center text-center p-8">
                          <div className="text-muted-foreground">
                             <FileText className="h-10 w-10 mx-auto mb-2" />
                             <p>Your rate card is not yet available.</p>
-                             <p className="text-sm">You can add it by editing your profile.</p>
+                             <p className="text-sm">You can add a link to it by editing your profile.</p>
                         </div>
                      </div>
+                    )}
                 </CardContent>
             </Card>
           </div>
@@ -194,7 +206,7 @@ export default function ProfilePage() {
               })}
             </div>
             {(!talent.portfolio || talent.portfolio.length === 0) && (
-              <p className="text-muted-foreground">You haven't added any portfolio items yet.</p>
+              <p className="text-muted-foreground">You haven't added any portfolio items yet. You can add them by editing your profile.</p>
             )}
           </div>
         </div>

@@ -1,14 +1,29 @@
+'use client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { talents } from '@/lib/placeholder-data';
 import TalentCard from '@/app/_components/talent-card';
 import placeholderImages from '@/lib/placeholder-images.json';
 import { ArrowRight, Palette, Clapperboard, Mic, Camera } from 'lucide-react';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, where, limit } from 'firebase/firestore';
+import type { Talent } from '@/lib/definitions';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Home() {
   const heroImage = placeholderImages.placeholderImages.find(p => p.id === 'hero-background');
-  const featuredTalents = talents.slice(0, 3);
+  const firestore = useFirestore();
+
+  const featuredTalentsQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(
+      collection(firestore, 'talents'),
+      where('approved', '==', true),
+      limit(3)
+    );
+  }, [firestore]);
+
+  const { data: featuredTalents, isLoading } = useCollection<Talent>(featuredTalentsQuery);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -51,7 +66,14 @@ export default function Home() {
             </p>
           </div>
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredTalents.map((talent) => (
+            {isLoading && Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="space-y-2">
+                <Skeleton className="aspect-[3/4] w-full" />
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+            ))}
+            {featuredTalents?.map((talent) => (
               <TalentCard key={talent.id} talent={talent} />
             ))}
           </div>

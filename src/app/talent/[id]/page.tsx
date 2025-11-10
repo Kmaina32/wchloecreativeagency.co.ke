@@ -1,13 +1,16 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { talents } from '@/lib/placeholder-data';
-import placeholderImagesData from '@/lib/placeholder-images.json';
+import { notFound, useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Instagram, Twitter, Music, Mail, Phone, Facebook, Youtube } from 'lucide-react';
-import type { Metadata } from 'next';
+import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
+import type { Talent } from '@/lib/definitions';
+import { Skeleton } from '@/components/ui/skeleton';
+import placeholderImagesData from '@/lib/placeholder-images.json';
 
 const { placeholderImages } = placeholderImagesData;
 
@@ -23,23 +26,64 @@ const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 
-type Props = {
-  params: { id: string };
-};
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const talent = talents.find((p) => p.id === params.id);
-  if (!talent) {
-    return { title: 'Talent Not Found' };
-  }
-  return {
-    title: `${talent.name} | W. Chloe Creative Hub`,
-    description: talent.bio,
-  };
+function TalentProfileSkeleton() {
+  return (
+    <div className="container mx-auto px-4 md:px-6 py-12">
+      <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+        <div className="md:col-span-1">
+          <Card>
+            <CardContent className="p-6 text-center">
+              <Skeleton className="w-40 h-40 mx-auto rounded-full mb-4" />
+              <Skeleton className="h-8 w-3/4 mx-auto mb-2" />
+              <Skeleton className="h-6 w-1/2 mx-auto" />
+              <Separator className="my-6" />
+              <div className="space-y-4 text-left">
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-full" />
+              </div>
+              <Skeleton className="h-10 w-full mt-6" />
+            </CardContent>
+          </Card>
+        </div>
+        <div className="md:col-span-2 space-y-8">
+          <div>
+            <Skeleton className="h-8 w-48 mb-4" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-5/6" />
+            </div>
+          </div>
+          <Separator className="my-8" />
+          <div>
+            <Skeleton className="h-8 w-48 mb-4" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Skeleton className="aspect-video w-full" />
+              <Skeleton className="aspect-video w-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default function TalentProfilePage({ params }: { params: { id:string } }) {
-  const talent = talents.find((p) => p.id === params.id);
+
+export default function TalentProfilePage() {
+  const params = useParams();
+  const id = params.id as string;
+  const firestore = useFirestore();
+
+  const talentDocRef = useMemoFirebase(() => {
+    if (!firestore || !id) return null;
+    return doc(firestore, 'talents', id);
+  }, [firestore, id]);
+
+  const { data: talent, isLoading } = useDoc<Talent>(talentDocRef);
+  
+  if (isLoading) {
+    return <TalentProfileSkeleton />;
+  }
 
   if (!talent) {
     notFound();
@@ -65,7 +109,7 @@ export default function TalentProfilePage({ params }: { params: { id:string } })
                 )}
               </div>
               <h1 className="font-headline text-3xl font-bold">{talent.name}</h1>
-              <p className="text-primary font-semibold text-lg">{talent.category}</p>
+              <p className="text-primary font-semibold text-lg capitalize">{talent.category}</p>
               
               <div className="flex justify-center space-x-4 mt-4 text-muted-foreground">
                 {talent.socials?.instagram && <Link href={talent.socials.instagram} className="hover:text-primary"><Instagram /></Link>}
@@ -102,7 +146,7 @@ export default function TalentProfilePage({ params }: { params: { id:string } })
         </div>
 
         <div className="md:col-span-2">
-          <div className="prose prose-lg max-w-none">
+          <div className="prose prose-lg max-w-none dark:prose-invert">
             <h2 className="font-headline text-2xl font-semibold border-b pb-2">Biography</h2>
             <p className="mt-4 text-foreground/80">{talent.bio}</p>
           </div>
@@ -112,7 +156,7 @@ export default function TalentProfilePage({ params }: { params: { id:string } })
           <div>
             <h2 className="font-headline text-2xl font-semibold mb-4">Portfolio</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {talent.portfolio.map((item, index) => {
+              {talent.portfolio?.map((item, index) => {
                 const portfolioImage = placeholderImages.find(img => img.id === item.image);
                 return portfolioImage ? (
                   <Card key={index} className="overflow-hidden group">
@@ -134,7 +178,7 @@ export default function TalentProfilePage({ params }: { params: { id:string } })
                 ) : null;
               })}
             </div>
-            {talent.portfolio.length === 0 && (
+            {(!talent.portfolio || talent.portfolio.length === 0) && (
               <p className="text-muted-foreground">No portfolio items available.</p>
             )}
           </div>

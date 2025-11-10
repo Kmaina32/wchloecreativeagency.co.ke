@@ -1,3 +1,94 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "Abstract creative background",
+      "imageUrl": "https://images.unsplash.com/photo-1759246129604-d4bf46f6d7ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxhYnN0cmFjdCUyMGNyZWF0aXZlfGVufDB8fHx8MTc2MjY4MTQzNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract creative"
+    },
+    {
+      "id": "talent-1-profile",
+      "description": "Profile of Patricia Wambui",
+      "imageUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d29tYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjI3MDIxOTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman portrait"
+    },
+    {
+      "id": "talent-1-portfolio-1",
+      "description": "Patricia Wambui at a film premiere",
+      "imageUrl": "https://images.unsplash.com/photo-1704283706381-9c5dfed3470d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxyZWQlMjBjYXJwZXR8ZW58MHx8fHwxNzYyNzMyNjY3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "red carpet"
+    },
+    {
+      "id": "talent-1-portfolio-2",
+      "description": "Patricia Wambui on set",
+      "imageUrl": "https://images.unsplash.com/photo-1632187981988-40f3cbaeef5e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmaWxtJTIwc2V0fGVufDB8fHx8MTc2Mjc1MDI4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "film set"
+    },
+    {
+      "id": "talent-2-profile",
+      "description": "Profile of David Ochieng",
+      "imageUrl": "https://images.unsplash.com/photo-1607031542107-f6f46b5d54e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjI3Mzg5NzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "man portrait"
+    },
+    {
+      "id": "talent-2-portfolio-1",
+      "description": "David Ochieng performing on stage",
+      "imageUrl": "https://images.unsplash.com/photo-1470229538611-16ba8c7ffbd7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bXVzaWMlMjBjb25jZXJ0fGVufDB8fHx8MTc2Mjc0MTk4OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "music concert"
+    },
+    {
+      "id": "talent-3-profile",
+      "description": "Profile of Aisha Khan",
+      "imageUrl": "https://images.unsplash.com/photo-1611042553484-d61f84d22784?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmYXNoaW9uJTIwbW9kZWx8ZW58MHx8fHwxNzYyNjQ1MDc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fashion model"
+    },
+    {
+      "id": "talent-3-portfolio-1",
+      "description": "Aisha Khan in a fashion shoot",
+      "imageUrl": "https://images.unsplash.com/photo-1726591383650-6f2740f79c9c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmYXNoaW9uJTIwc2hvb3R8ZW58MHx8fHwxNzYyNzUwMjgyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fashion shoot"
+    },
+    {
+      "id": "talent-4-profile",
+      "description": "Profile of Samuel L. Jackson (fictional)",
+      "imageUrl": "https://images.unsplash.com/photo-1615484800095-7f6bbb859637?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhY3RvciUyMHBvcnRyYWl0fGVufDB8fHx8MTc2Mjc1MDI4Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "actor portrait"
+    },
+    {
+      "id": "talent-4-portfolio-1",
+      "description": "Samuel L. Jackson on a movie poster",
+      "imageUrl": "https://images.unsplash.com/photo-1616530940355-351fabd9524b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtb3ZpZSUyMHBvc3RlcnxlbnwwfHx8fDE3NjI2ODgyNjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "movie poster"
+    },
+    {
+      "id": "talent-5-profile",
+      "description": "Profile of Chloe Kim (fictional)",
+      "imageUrl": "https://images.unsplash.com/photo-1643306712585-0f0ed082ddc1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjcmVhdG9yJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYyNzA4OTM5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "creator portrait"
+    },
+    {
+      "id": "talent-5-portfolio-1",
+      "description": "Chloe Kim creating content",
+      "imageUrl": "https://images.unsplash.com/photo-1627244714766-94dab62ed964?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb250ZW50JTIwY3JlYXRvcnxlbnwwfHx8fDE3NjI3NTAyODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "content creator"
+    },
+    {
+      "id": "blog-1-featured",
+      "description": "Featured image for 'The Rise of African Creatives'",
+      "imageUrl": "https://images.unsplash.com/photo-1696586904914-075bb15acc40?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhZnJpY2FuJTIwYXJ0fGVufDB8fHx8MTc2Mjc1MDI4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "african art"
+    },
+    {
+      "id": "blog-2-featured",
+      "description": "Featured image for 'Navigating the Digital Art Scene'",
+      "imageUrl": "https://images.unsplash.com/photo-1641984790242-d8aa477d306c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkaWdpdGFsJTIwYXJ0fGVufDB8fHx8MTc2MjczMDcyMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "digital art"
+    },
+    {
+      "id": "blog-3-featured",
+      "description": "Featured image for 'Behind the Scenes: A Day with a Top Model'",
+      "imageUrl": "https://images.unsplash.com/photo-1457972729786-0411a3b2b626?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmYXNoaW9uJTIwYmFja3N0YWdlfGVufDB8fHx8MTc2Mjc1MDI4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fashion backstage"
+    }
+  ]
 }

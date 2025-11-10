@@ -24,7 +24,13 @@ const profileFormSchema = z.object({
     errorMap: () => ({ message: "Please select a category." }),
   }),
   bio: z.string().min(20, "Bio must be at least 20 characters long."),
-  portfolioLink: z.string().url("Please enter a valid URL."),
+  instagram: z.string().url().optional().or(z.literal('')),
+  twitter: z.string().url().optional().or(z.literal('')),
+  tiktok: z.string().url().optional().or(z.literal('')),
+  facebook: z.string().url().optional().or(z.literal('')),
+  youtube: z.string().url().optional().or(z.literal('')),
+  rate: z.coerce.number().min(0, "Rate must be a positive number.").optional(),
+  currency: z.enum(['USD', 'KES', 'EUR', 'GBP']).optional(),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -42,7 +48,11 @@ export default function CompleteProfilePage() {
         fullName: '',
         phone: '',
         bio: '',
-        portfolioLink: '',
+        instagram: '',
+        twitter: '',
+        tiktok: '',
+        facebook: '',
+        youtube: '',
       }
   });
 
@@ -71,8 +81,14 @@ export default function CompleteProfilePage() {
         category: data.category,
         bio: data.bio,
         socials: {
-          instagram: data.portfolioLink,
+          instagram: data.instagram,
+          twitter: data.twitter,
+          tiktok: data.tiktok,
+          facebook: data.facebook,
+          youtube: data.youtube,
         },
+        rate: data.rate,
+        currency: data.currency,
         portfolio: [],
         profileImage: '',
         approved: false,
@@ -130,7 +146,7 @@ export default function CompleteProfilePage() {
       />
       <div className="absolute inset-0 bg-black/50 -z-10" />
 
-      <div className="mx-auto grid w-full max-w-md gap-6">
+      <div className="mx-auto grid w-full max-w-3xl gap-6 my-8">
          <Card className="bg-card/90 backdrop-blur-sm">
           <CardHeader className="text-center">
             <CardTitle className="font-headline text-3xl md:text-4xl">Complete Your Profile</CardTitle>
@@ -140,7 +156,7 @@ export default function CompleteProfilePage() {
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                   control={form.control}
                   name="fullName"
@@ -207,20 +223,115 @@ export default function CompleteProfilePage() {
                       </FormItem>
                     )}
                   />
-                <FormField
-                  control={form.control}
-                  name="portfolioLink"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Link to Portfolio or Social Media</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g., https://instagram.com/yourprofile" {...field} />
-                      </FormControl>
-                       <p className="text-xs text-muted-foreground">Link to your Instagram, Behance, YouTube, or personal website.</p>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+
+                <CardTitle className="text-lg pt-4 border-t">Rates</CardTitle>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="rate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Starting Rate (Optional)</FormLabel>
+                        <FormControl>
+                           <Input type="number" placeholder="e.g., 500" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="currency"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Currency</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select Currency" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="USD">USD ($)</SelectItem>
+                            <SelectItem value="KES">KES (Ksh)</SelectItem>
+                            <SelectItem value="EUR">EUR (€)</SelectItem>
+                            <SelectItem value="GBP">GBP (£)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                
+                <CardTitle className="text-lg pt-4 border-t">Social & Portfolio Links</CardTitle>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="instagram"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Instagram</FormLabel>
+                        <FormControl>
+                          <Input placeholder="https://instagram.com/yourprofile" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                   <FormField
+                    control={form.control}
+                    name="twitter"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>X (Twitter)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="https://x.com/yourprofile" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="tiktok"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>TikTok</FormLabel>
+                        <FormControl>
+                          <Input placeholder="https://tiktok.com/@yourprofile" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                   <FormField
+                    control={form.control}
+                    name="facebook"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Facebook</FormLabel>
+                        <FormControl>
+                          <Input placeholder="https://facebook.com/yourprofile" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                   <FormField
+                    control={form.control}
+                    name="youtube"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>YouTube</FormLabel>
+                        <FormControl>
+                          <Input placeholder="https://youtube.com/yourchannel" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 
                 <Button type="submit" className="w-full" size="lg" disabled={form.formState.isSubmitting}>
                   {form.formState.isSubmitting ? 'Submitting...' : 'Submit Profile'}

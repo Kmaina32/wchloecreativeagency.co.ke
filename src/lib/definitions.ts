@@ -10,6 +10,8 @@ export type Talent = {
     instagram?: string;
     twitter?: string;
     tiktok?: string;
+    facebook?: string;
+    youtube?: string;
   };
   portfolio: {
     image: string; // Corresponds to an ID in placeholder-images.json
@@ -18,6 +20,8 @@ export type Talent = {
   profileImage: string; // Corresponds to an ID in placeholder-images.json
   approved: boolean;
   createdAt: any;
+  rate?: number;
+  currency?: 'USD' | 'KES' | 'EUR' | 'GBP';
   rateCard?: string;
 };
 

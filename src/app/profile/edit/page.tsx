@@ -28,7 +28,10 @@ const profileEditSchema = z.object({
   instagram: z.string().url().optional().or(z.literal('')),
   twitter: z.string().url().optional().or(z.literal('')),
   tiktok: z.string().url().optional().or(z.literal('')),
-  rateCard: z.string().url().optional().or(z.literal('')),
+  facebook: z.string().url().optional().or(z.literal('')),
+  youtube: z.string().url().optional().or(z.literal('')),
+  rate: z.coerce.number().min(0, "Rate must be a positive number.").optional(),
+  currency: z.enum(['USD', 'KES', 'EUR', 'GBP']).optional(),
 });
 
 type ProfileEditFormValues = z.infer<typeof profileEditSchema>;
@@ -98,7 +101,8 @@ export default function EditProfilePage() {
         instagram: '',
         twitter: '',
         tiktok: '',
-        rateCard: '',
+        facebook: '',
+        youtube: '',
       }
   });
 
@@ -112,7 +116,10 @@ export default function EditProfilePage() {
             instagram: talent.socials?.instagram || '',
             twitter: talent.socials?.twitter || '',
             tiktok: talent.socials?.tiktok || '',
-            rateCard: talent.rateCard || '',
+            facebook: talent.socials?.facebook || '',
+            youtube: talent.socials?.youtube || '',
+            rate: talent.rate || undefined,
+            currency: talent.currency || undefined,
         })
     }
   }, [talent, form]);
@@ -143,8 +150,11 @@ export default function EditProfilePage() {
             instagram: data.instagram,
             twitter: data.twitter,
             tiktok: data.tiktok,
+            facebook: data.facebook,
+            youtube: data.youtube,
         },
-        rateCard: data.rateCard,
+        rate: data.rate,
+        currency: data.currency,
       };
 
       await updateDoc(talentDocRef, updatedData);
@@ -247,6 +257,46 @@ export default function EditProfilePage() {
                     </FormItem>
                   )}
                 />
+                
+                <CardTitle className="text-lg pt-4 border-t">Rates</CardTitle>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="rate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Starting Rate (Optional)</FormLabel>
+                        <FormControl>
+                           <Input type="number" placeholder="e.g., 500" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="currency"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Currency</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select Currency" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="USD">USD ($)</SelectItem>
+                            <SelectItem value="KES">KES (Ksh)</SelectItem>
+                            <SelectItem value="EUR">EUR (€)</SelectItem>
+                            <SelectItem value="GBP">GBP (£)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
                 <CardTitle className="text-lg pt-4 border-t">Social & Portfolio Links</CardTitle>
 
@@ -277,9 +327,7 @@ export default function EditProfilePage() {
                         </FormItem>
                     )}
                     />
-                </div>
-                 <div className="grid sm:grid-cols-2 gap-6">
-                    <FormField
+                     <FormField
                     control={form.control}
                     name="tiktok"
                     render={({ field }) => (
@@ -294,12 +342,25 @@ export default function EditProfilePage() {
                     />
                     <FormField
                     control={form.control}
-                    name="rateCard"
+                    name="facebook"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Rate Card URL</FormLabel>
+                        <FormLabel>Facebook</FormLabel>
                         <FormControl>
-                            <Input placeholder="Link to your rate card (PDF, Drive, etc.)" {...field} />
+                            <Input placeholder="https://facebook.com/..." {...field} />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                    <FormField
+                    control={form.control}
+                    name="youtube"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>YouTube</FormLabel>
+                        <FormControl>
+                            <Input placeholder="https://youtube.com/..." {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>

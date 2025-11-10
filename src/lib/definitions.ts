@@ -2,7 +2,7 @@
 export type Talent = {
   id: string;
   name: string;
-  category: 'Actress' | 'Artist' | 'Model' | 'Content Creator' | 'Photographer';
+  category: 'Actress' | 'Artist' | 'Model' | 'Content Creator' | 'Photographer' | 'actress' | 'artist' | 'model' | 'content-creator' | 'photographer';
   bio: string;
   email: string;
   phone: string;
@@ -17,7 +17,7 @@ export type Talent = {
   }[];
   profileImage: string; // Corresponds to an ID in placeholder-images.json
   approved: boolean;
-  createdAt: string;
+  createdAt: any;
 };
 
 export type BlogPost = {
@@ -43,7 +43,8 @@ export type Message = {
 
 export type UserProfile = {
   id: string;
-  name: string;
-  email: string;
+  displayName: string | null;
+  email: string | null;
+  photoURL: string | null;
   role: 'admin' | 'talent';
 };

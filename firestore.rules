@@ -93,7 +93,7 @@ service cloud.firestore {
          * This is necessary for the public contact form and the admin message dashboard.
          */
         allow list: if isSignedIn() && isAdmin();
-        allow create: if isSignedIn();
+        allow create: if true;
 
         /**
          * @description Allows only admins to read, update, or delete individual messages.
@@ -112,7 +112,7 @@ service cloud.firestore {
      * @deny (delete) Non-admin tries to delete an admin role entry. Auth: {uid: "user456"}
      */
     match /roles_admin/{uid} {
-      allow get: if isSignedIn();
+      allow get: if isSignedIn() && request.auth.uid == uid;
       allow list: if false; // Nobody can list the roles_admin collection
 
       allow create: if isSignedIn() && request.auth.uid == uid;

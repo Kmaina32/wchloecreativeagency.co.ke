@@ -3,12 +3,12 @@ import { DataTable } from "./components/data-table"
 import { columns } from "./components/columns"
 import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
 import type { Message } from "@/lib/definitions";
-import { collection } from "firebase/firestore";
+import { collection, query, orderBy } from "firebase/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AdminMessagesPage() {
   const firestore = useFirestore();
-  const messagesQuery = useMemoFirebase(() => firestore ? collection(firestore, 'messages') : null, [firestore]);
+  const messagesQuery = useMemoFirebase(() => firestore ? query(collection(firestore, 'messages'), orderBy('createdAt', 'desc')) : null, [firestore]);
   const { data: messages, isLoading } = useCollection<Message>(messagesQuery);
 
   return (

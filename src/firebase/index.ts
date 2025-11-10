@@ -27,10 +27,9 @@ export function getSdks(firebaseApp: FirebaseApp) {
   };
 }
 
-export function initiateEmailSignIn(auth: Auth, email: string, password: string): void {
-  // CRITICAL: Call signInWithEmailAndPassword directly. Do NOT use 'await signInWithEmailAndPassword(...)'.
-  signInWithEmailAndPassword(auth, email, password);
-  // Code continues immediately. Auth state change is handled by onAuthStateChanged listener.
+export async function initiateEmailSignIn(auth: Auth, email: string, password: string): Promise<void> {
+  // We now await the result to catch potential errors at the call site.
+  await signInWithEmailAndPassword(auth, email, password);
 }
 
 

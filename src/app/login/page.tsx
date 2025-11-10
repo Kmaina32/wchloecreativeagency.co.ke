@@ -41,8 +41,25 @@ export default function LoginPage() {
     }
   }, [user, isUserLoading, router]);
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    initiateEmailSignIn(auth, data.email, data.password);
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      await initiateEmailSignIn(auth, data.email, data.password);
+      // Successful login will be handled by the auth state listener (useEffect)
+    } catch (error: any) {
+      if (error.code === 'auth/invalid-credential') {
+        toast({
+          variant: "destructive",
+          title: "Login Failed",
+          description: "The email or password you entered is incorrect. Please try again.",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: error.message || "An unexpected error occurred during login.",
+        });
+      }
+    }
   };
   
   const handleGoogleLogin = async () => {

@@ -6,7 +6,7 @@ import placeholderImagesData from '@/lib/placeholder-images.json';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Instagram, Twitter, Tiktok, Mail, Phone } from 'lucide-react';
+import { Instagram, Twitter, Music, Mail, Phone } from 'lucide-react';
 import type { Metadata } from 'next';
 
 const { placeholderImages } = placeholderImagesData;
@@ -58,7 +58,7 @@ export default function TalentProfilePage({ params }: { params: { id:string } })
               <div className="flex justify-center space-x-4 mt-4 text-muted-foreground">
                 {talent.socials.instagram && <Link href={talent.socials.instagram} className="hover:text-primary"><Instagram /></Link>}
                 {talent.socials.twitter && <Link href={talent.socials.twitter} className="hover:text-primary"><Twitter /></Link>}
-                {talent.socials.tiktok && <Link href={talent.socials.tiktok} className="hover:text-primary"><Tiktok /></Link>}
+                {talent.socials.tiktok && <Link href={talent.socials.tiktok} className="hover:text-primary"><Music /></Link>}
               </div>
 
               <Separator className="my-6" />

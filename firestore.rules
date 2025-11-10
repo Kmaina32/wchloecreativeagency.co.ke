@@ -83,16 +83,23 @@ service cloud.firestore {
     }
 
     /**
-     * @description Allows only admins to manage messages.
-     * @path /messages/{messageId}
-     * @allow (create) Any signed-in user can create a message. Auth: {uid: "user456"}
-     * @allow (get,list,update,delete) Admins can read, list, update, and delete messages. Auth: {uid: "admin123"}
-     * @deny (get,list,update,delete) Non-admins try to read, list, update, or delete messages. Auth: {uid: "user456"}
-     * @principle Enforces role-based access control.
+     * @description Manages access to the messages collection.
+     * @path /messages
      */
     match /messages/{messageId} {
-      allow create: if isSignedIn();
-      allow get, list, update, delete: if isSignedIn() && isAdmin();
+
+        /**
+         * @description Allows any signed-in user to create a message, and allows admins to list all messages.
+         * This is necessary for the public contact form and the admin message dashboard.
+         */
+        allow list: if isSignedIn() && isAdmin();
+        allow create: if isSignedIn();
+
+        /**
+         * @description Allows only admins to read, update, or delete individual messages.
+         * Non-admins cannot access specific messages.
+         */
+        allow get, update, delete: if isSignedIn() && isAdmin();
     }
 
     /**
@@ -142,7 +149,7 @@ service cloud.firestore {
     }
 
     /**
-     * @description Checks if the user is an admin by checking their email address.
+     * @description Checks if the user is an admin by checking for a document in the roles_admin collection.
      * @return {boolean} True if the user is an admin, false otherwise.
      */
     function isAdmin() {

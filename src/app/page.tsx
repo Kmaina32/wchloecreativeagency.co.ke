@@ -103,7 +103,7 @@ export default function Home() {
               </ul>
             </div>
             <div className="relative h-96 rounded-lg overflow-hidden">
-               <Image src="https://picsum.photos/seed/agency/800/600" alt="Creative team" layout="fill" objectFit="cover" data-ai-hint="creative team" />
+               <Image src="https://as1.ftcdn.net/v2/jpg/00/54/33/64/500_F_54336435_CEkBMzRjQivuN1iD4CnyP9aFz7pWg9ej.jpg" alt="Creative team" layout="fill" objectFit="cover" data-ai-hint="creative team" />
             </div>
           </div>
         </div>

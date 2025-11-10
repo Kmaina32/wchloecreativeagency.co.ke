@@ -33,6 +33,12 @@ const nextConfig: NextConfig = {
         hostname: 'wallpapers.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'as1.ftcdn.net',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

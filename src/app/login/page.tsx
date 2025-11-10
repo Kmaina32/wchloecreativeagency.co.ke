@@ -9,11 +9,13 @@ import { Sprout } from 'lucide-react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useAuth } from '@/firebase';
+import { useAuth, useUser } from '@/firebase';
 import { initiateEmailSignIn } from '@/firebase';
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
@@ -24,11 +26,20 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function LoginPage() {
   const auth = useAuth();
+  const { user, isUserLoading } = useUser();
   const { toast } = useToast();
+  const router = useRouter();
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
   });
+
+  useEffect(() => {
+    // Redirect if user is logged in
+    if (!isUserLoading && user) {
+      router.push('/talent');
+    }
+  }, [user, isUserLoading, router]);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     initiateEmailSignIn(auth, data.email, data.password);
@@ -38,6 +49,7 @@ export default function LoginPage() {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
+      // The useEffect will handle the redirection
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -52,7 +64,7 @@ export default function LoginPage() {
         <Image
           src="https://wallpapers.com/images/hd/african-graffiti-art-9voko704yv7gt2fh.jpg"
           alt="African graffiti art"
-          layout="fill"
+          fill
           className="object-cover -z-10"
           data-ai-hint="african graffiti"
         />

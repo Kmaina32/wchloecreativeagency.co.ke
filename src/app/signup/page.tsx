@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from "next/link";
@@ -9,11 +10,12 @@ import { Sprout } from 'lucide-react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useAuth } from '@/firebase';
+import { useAuth, useUser } from '@/firebase';
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
+import { useEffect } from "react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
@@ -28,12 +30,20 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function SignupPage() {
   const auth = useAuth();
+  const { user, isUserLoading } = useUser();
   const { toast } = useToast();
   const router = useRouter();
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
   });
+
+  useEffect(() => {
+    // Redirect if user is logged in
+    if (!isUserLoading && user) {
+      router.push('/complete-profile');
+    }
+  }, [user, isUserLoading, router]);
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
@@ -42,7 +52,7 @@ export default function SignupPage() {
         title: "Account Created!",
         description: "You've been successfully signed up. Let's complete your profile.",
       });
-      router.push('/complete-profile');
+      // The useEffect will handle the redirection
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -60,7 +70,7 @@ export default function SignupPage() {
         title: "Signed In with Google!",
         description: "Let's complete your profile.",
       });
-      router.push('/complete-profile');
+      // The useEffect will handle the redirection
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -75,7 +85,7 @@ export default function SignupPage() {
         <Image
           src="https://wallpapers.com/images/hd/african-graffiti-art-9voko704yv7gt2fh.jpg"
           alt="African graffiti art"
-          layout="fill"
+          fill
           className="object-cover -z-10"
           data-ai-hint="african graffiti"
         />
@@ -111,8 +121,7 @@ export default function SignupPage() {
                   {errors.password && <p className="text-destructive text-sm">{errors.password.message}</p>}
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="confirmPassword">Confirm Password</Label>
-                  <Input id="confirmPassword" type="password" {...register("confirmPassword")} />
+                  <Label htmlFor="confirmPassword">Confirm Password</Label>                  <Input id="confirmPassword" type="password" {...register("confirmPassword")} />
                   {errors.confirmPassword && <p className="text-destructive text-sm">{errors.confirmPassword.message}</p>}
                 </div>
                 <Button type="submit" className="w-full">

@@ -5,6 +5,7 @@ import Footer from '@/app/_components/footer';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { FirebaseClientProvider } from '@/firebase';
+import { Analytics } from '@vercel/analytics/react';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://wchloe.com';
 
@@ -72,6 +73,7 @@ export default function RootLayout({
           </div>
           <Toaster />
         </FirebaseClientProvider>
+        <Analytics />
       </body>
     </html>
   );

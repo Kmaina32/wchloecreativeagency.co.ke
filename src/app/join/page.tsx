@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
@@ -37,9 +38,19 @@ export default function JoinPage() {
   const { toast } = useToast();
   const router = useRouter();
 
-  const { register, handleSubmit, control, formState: { errors } } = useForm<JoinFormValues>({
+  const form = useForm<JoinFormValues>({
       resolver: zodResolver(joinFormSchema),
+      defaultValues: {
+        fullName: '',
+        email: '',
+        password: '',
+        phone: '',
+        bio: '',
+        portfolioLink: '',
+      }
   });
+
+  const { formState: { errors } } = form;
 
   const onSubmit: SubmitHandler<JoinFormValues> = async (data) => {
     try {
@@ -92,7 +103,7 @@ export default function JoinPage() {
       <div className="absolute inset-0 bg-black/50 -z-10" />
 
       <div className="mx-auto grid w-full max-w-md gap-6">
-         <Card>
+         <Card className="bg-card/90 backdrop-blur-sm">
           <CardHeader className="text-center">
             <CardTitle className="font-headline text-3xl md:text-4xl">Become a W. Chloe Creative</CardTitle>
             <CardDescription className="pt-2">
@@ -102,65 +113,121 @@ export default function JoinPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="fullName">Full Name</Label>
-                <Input id="fullName" placeholder="e.g., Patricia Wambui" {...register("fullName")} />
-                 {errors.fullName && <p className="text-destructive text-sm">{errors.fullName.message}</p>}
-              </div>
-              
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input id="email" type="email" placeholder="your.email@example.com" {...register("email")} />
-                  {errors.email && <p className="text-destructive text-sm">{errors.email.message}</p>}
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="fullName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., Patricia Wambui" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <div className="grid sm:grid-cols-2 gap-4">
+                   <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email Address</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="your.email@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input type="password" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
-                 <div className="space-y-2">
-                    <Label htmlFor="password">Password</Label>
-                    <Input id="password" type="password" {...register("password")} />
-                    {errors.password && <p className="text-destructive text-sm">{errors.password.message}</p>}
-                </div>
-              </div>
-               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone Number</Label>
-                  <Input id="phone" type="tel" placeholder="+254 700 000 000" {...register("phone")} />
-                   {errors.phone && <p className="text-destructive text-sm">{errors.phone.message}</p>}
+                 <div className="grid sm:grid-cols-2 gap-4">
+                   <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Phone Number</FormLabel>
+                          <FormControl>
+                             <Input type="tel" placeholder="+254 700 000 000" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Primary Category</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select your creative category" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="actress">Actress</SelectItem>
+                            <SelectItem value="artist">Artist</SelectItem>
+                            <SelectItem value="model">Model</SelectItem>
+                            <SelectItem value="content-creator">Content Creator</SelectItem>
+                            <SelectItem value="photographer">Photographer</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="category">Primary Category</Label>
-                  <Select name={control.name} onValueChange={(value) => control._updateFormState({ ...control._formValues, category: value })}>
-                    <SelectTrigger id="category">
-                      <SelectValue placeholder="Select your creative category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="actress">Actress</SelectItem>
-                      <SelectItem value="artist">Artist</SelectItem>
-                      <SelectItem value="model">Model</SelectItem>
-                      <SelectItem value="content-creator">Content Creator</SelectItem>
-                      <SelectItem value="photographer">Photographer</SelectItem>
-                    </SelectContent>
-                  </Select>
-                   {errors.category && <p className="text-destructive text-sm">{errors.category.message}</p>}
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="bio">Your Bio</Label>
-                <Textarea id="bio" placeholder="Tell us about yourself, your work, and your aspirations..." rows={5} {...register("bio")} />
-                 {errors.bio && <p className="text-destructive text-sm">{errors.bio.message}</p>}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="portfolioLink">Link to Portfolio or Social Media</Label>
-                <Input id="portfolioLink" placeholder="e.g., https://instagram.com/yourprofile" {...register("portfolioLink")} />
-                 {errors.portfolioLink && <p className="text-destructive text-sm">{errors.portfolioLink.message}</p>}
-                <p className="text-xs text-muted-foreground">Link to your Instagram, Behance, YouTube, or personal website.</p>
-              </div>
-              
-              <Button type="submit" className="w-full" size="lg">Submit Application</Button>
-            </form>
+                 <FormField
+                    control={form.control}
+                    name="bio"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Your Bio</FormLabel>
+                        <FormControl>
+                          <Textarea placeholder="Tell us about yourself, your work, and your aspirations..." rows={5} {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                <FormField
+                  control={form.control}
+                  name="portfolioLink"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Link to Portfolio or Social Media</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., https://instagram.com/yourprofile" {...field} />
+                      </FormControl>
+                       <p className="text-xs text-muted-foreground">Link to your Instagram, Behance, YouTube, or personal website.</p>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <Button type="submit" className="w-full" size="lg">Submit Application</Button>
+              </form>
+            </Form>
           </CardContent>
         </Card>
       </div>

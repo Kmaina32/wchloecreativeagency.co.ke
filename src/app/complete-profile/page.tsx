@@ -137,18 +137,20 @@ export default function CompleteProfilePage() {
   }
 
   return (
-    <div className="relative w-full min-h-screen pt-16 pb-8 px-4">
-      <Image
-        src="https://wallpapers.com/images/hd/african-graffiti-art-9voko704yv7gt2fh.jpg"
-        alt="African graffiti art"
-        fill
-        className="object-cover -z-10"
-        data-ai-hint="african graffiti"
-      />
-      <div className="absolute inset-0 bg-black/50 -z-10" />
+    <div className="w-full min-h-screen pt-16 pb-8 px-4">
+      <div className="fixed inset-0 -z-10">
+        <Image
+          src="https://wallpapers.com/images/hd/african-graffiti-art-9voko704yv7gt2fh.jpg"
+          alt="African graffiti art"
+          fill
+          className="object-cover"
+          data-ai-hint="african graffiti"
+        />
+        <div className="absolute inset-0 bg-black/50" />
+      </div>
 
-      <div className="mx-auto grid w-full max-w-lg gap-6">
-         <Card className="bg-card/80 backdrop-blur-sm">
+      <div className="mx-auto grid w-full max-w-sm gap-6">
+         <Card className="bg-card/50 backdrop-blur-sm">
           <CardHeader className="text-center">
             <CardTitle className="font-headline text-3xl md:text-4xl">Complete Your Profile</CardTitle>
             <CardDescription className="pt-2">

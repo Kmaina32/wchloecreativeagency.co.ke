@@ -124,6 +124,12 @@ export default function EditProfilePage() {
     }
   }, [user, isUserLoading, router]);
 
+  useEffect(() => {
+    if (!isTalentLoading && !talent) {
+        router.replace('/complete-profile');
+    }
+  }, [isTalentLoading, talent, router]);
+
   const onSubmit: SubmitHandler<ProfileEditFormValues> = async (data) => {
     if (!talentDocRef) return;
 
@@ -159,13 +165,8 @@ export default function EditProfilePage() {
     }
   };
 
-  if (isUserLoading || isTalentLoading) {
+  if (isUserLoading || isTalentLoading || !talent) {
     return <EditProfileSkeleton />;
-  }
-
-  if (!talent) {
-     router.replace('/complete-profile');
-    return null;
   }
 
   return (

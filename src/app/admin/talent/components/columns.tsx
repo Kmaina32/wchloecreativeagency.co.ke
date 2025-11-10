@@ -71,7 +71,7 @@ export const columns: ColumnDef<Talent>[] = [
     accessorKey: "approved",
     header: "Status",
     cell: ({ row }) => {
-      const isApproved = row.getValue("approved")
+      const isApproved = row.original.approved
       return <Badge variant={isApproved ? "default" : "secondary"}>{isApproved ? "Approved" : "Pending"}</Badge>
     }
   },
@@ -79,7 +79,8 @@ export const columns: ColumnDef<Talent>[] = [
     accessorKey: "createdAt",
     header: "Date Joined",
     cell: ({ row }) => {
-      return <span>{format(new Date(row.original.createdAt), 'MMM d, yyyy')}</span>
+      const date = row.original.createdAt ? new Date(row.original.createdAt) : null;
+      return <span>{date ? format(date, 'MMM d, yyyy') : 'N/A'}</span>
     }
   },
   {

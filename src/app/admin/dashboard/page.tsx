@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardContent,
@@ -15,16 +17,32 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Users, UserPlus, MessageSquareWarning, ArrowUpRight } from "lucide-react"
-import { talents, messages } from "@/lib/placeholder-data"
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
+import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
+import type { Talent, Message } from "@/lib/definitions";
+import { collection, query, where, limit } from "firebase/firestore";
 
 export default function Dashboard() {
-  const totalTalents = talents.length;
-  const pendingApplications = talents.filter(t => !t.approved).length;
-  const unreadMessages = messages.filter(m => !m.read).length;
+  const firestore = useFirestore();
 
-  const recentMessages = messages.slice(0, 5);
+  const talentsQuery = useMemoFirebase(() => firestore ? collection(firestore, 'talents') : null, [firestore]);
+  const approvedTalentsQuery = useMemoFirebase(() => firestore ? query(collection(firestore, 'talents'), where('approved', '==', true)) : null, [firestore]);
+  const pendingTalentsQuery = useMemoFirebase(() => firestore ? query(collection(firestore, 'talents'), where('approved', '==', false)) : null, [firestore]);
+  
+  const messagesQuery = useMemoFirebase(() => firestore ? collection(firestore, 'messages') : null, [firestore]);
+  const unreadMessagesQuery = useMemoFirebase(() => firestore ? query(collection(firestore, 'messages'), where('read', '==', false)) : null, [firestore]);
+  const recentMessagesQuery = useMemoFirebase(() => firestore ? query(collection(firestore, 'messages'), limit(5)) : null, [firestore]);
+
+
+  const { data: talentsData } = useCollection<Talent>(talentsQuery);
+  const { data: pendingApplicationsData } = useCollection<Talent>(pendingTalentsQuery);
+  const { data: unreadMessagesData } = useCollection<Message>(unreadMessagesQuery);
+  const { data: recentMessages } = useCollection<Message>(recentMessagesQuery);
+
+  const totalTalents = talentsData?.length ?? 0;
+  const pendingApplications = pendingApplicationsData?.length ?? 0;
+  const unreadMessages = unreadMessagesData?.length ?? 0;
 
   return (
     <div className="grid gap-4 md:gap-8">
@@ -37,7 +55,7 @@ export default function Dashboard() {
           <CardContent>
             <div className="text-2xl font-bold">{totalTalents}</div>
             <p className="text-xs text-muted-foreground">
-              +2 from last month
+              Live count from the database
             </p>
           </CardContent>
         </Card>
@@ -91,7 +109,7 @@ export default function Dashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {recentMessages.map(message => (
+              {recentMessages && recentMessages.map(message => (
                 <TableRow key={message.id}>
                   <TableCell>
                     <div className="font-medium">{message.name}</div>

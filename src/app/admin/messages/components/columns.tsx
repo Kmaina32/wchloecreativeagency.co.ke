@@ -63,7 +63,7 @@ export const columns: ColumnDef<Message>[] = [
     accessorKey: "read",
     header: "Status",
     cell: ({ row }) => {
-      const isRead = row.getValue("read")
+      const isRead = row.original.read
       return <Badge variant={isRead ? "secondary" : "default"}>{isRead ? "Read" : "Unread"}</Badge>
     }
   },
@@ -71,7 +71,8 @@ export const columns: ColumnDef<Message>[] = [
     accessorKey: "createdAt",
     header: "Date Received",
     cell: ({ row }) => {
-      return <span>{format(new Date(row.original.createdAt), 'MMM d, yyyy')}</span>
+      const date = row.original.createdAt ? new Date(row.original.createdAt) : null;
+      return <span>{date ? format(date, 'MMM d, yyyy') : 'N/A'}</span>
     }
   },
   {

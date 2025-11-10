@@ -50,14 +50,15 @@ export const columns: ColumnDef<BlogPost>[] = [
     accessorKey: "publishedAt",
     header: "Published Date",
     cell: ({ row }) => {
-      return <span>{format(new Date(row.original.publishedAt), 'MMM d, yyyy')}</span>
+      const date = row.original.publishedAt ? new Date(row.original.publishedAt) : null;
+      return <span>{date ? format(date, 'MMM d, yyyy') : 'N/A'}</span>
     }
   },
   {
     accessorKey: "tags",
     header: "Tags",
     cell: ({ row }) => {
-      const tags = row.original.tags
+      const tags = row.original.tags || []
       return <div className="flex flex-wrap gap-1">{tags.map(tag => <span key={tag} className="text-xs text-muted-foreground">{tag}</span>)}</div>
     }
   },

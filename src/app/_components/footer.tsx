@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Github, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
-import { Sprout } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -8,8 +7,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 md:px-6 py-6">
         <div className="grid gap-6 md:grid-cols-3">
           <div className="space-y-2">
-            <Link href="/" className="font-headline text-xl font-bold text-primary flex items-center gap-2">
-              <Sprout />
+            <Link href="/" className="font-headline text-xl font-bold text-primary">
               W. Chloe Creative Hub
             </Link>
             <p className="text-muted-foreground text-sm">Discover Africa's finest creative talent.</p>

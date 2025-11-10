@@ -27,8 +27,7 @@ export default function Header() {
   return (
     <header className={cn("bg-transparent sticky top-0 z-40 border-b", { "bg-background/80 backdrop-blur-sm": !isHomePage })}>
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="font-headline text-2xl font-bold text-primary flex items-center gap-2">
-          <Sprout className="h-6 w-6" />
+        <Link href="/" className="font-headline text-2xl font-bold text-primary bg-foreground/10 backdrop-blur-sm border border-foreground/10 rounded-lg px-4 py-1">
           W. Chloe
         </Link>
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
@@ -78,8 +77,7 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="right">
               <div className="flex flex-col space-y-4 p-4">
-                <Link href="/" className="font-headline text-2xl font-bold text-primary mb-4 flex items-center gap-2">
-                  <Sprout className="h-6 w-6" />
+                <Link href="/" className="font-headline text-2xl font-bold text-primary mb-4 bg-foreground/10 backdrop-blur-sm border border-foreground/10 rounded-lg px-4 py-1 self-start">
                   W. Chloe
                 </Link>
                 {navLinks.map((link) => (

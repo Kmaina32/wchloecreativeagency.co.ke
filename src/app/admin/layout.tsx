@@ -17,6 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useAdmin } from '@/hooks/use-admin';
 
 const adminNavLinks = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -34,6 +35,7 @@ export default function AdminLayout({
   const router = useRouter();
   const auth = useAuth();
   const { user, isUserLoading } = useUser();
+  const { isAdmin, isAdminLoading } = useAdmin();
   
   const isLinkActive = (href: string) => {
     if (href === '/admin/dashboard') {
@@ -48,7 +50,7 @@ export default function AdminLayout({
     router.push('/login');
   };
 
-  if (isUserLoading) {
+  if (isUserLoading || isAdminLoading) {
     return (
         <div className="flex min-h-screen w-full flex-col bg-background">
          <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-card px-4 md:px-6 z-50">
@@ -64,7 +66,7 @@ export default function AdminLayout({
     );
   }
 
-  if (!user) {
+  if (!user || !isAdmin) {
     router.replace('/login');
     return null;
   }

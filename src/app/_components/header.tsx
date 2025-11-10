@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useAdmin } from '@/hooks/use-admin';
 
 const navLinks = [
   { href: '/talent', label: 'Talent' },
@@ -25,14 +26,12 @@ const navLinks = [
   { href: '/contact', label: 'Contact' },
 ];
 
-const adminEmails = ['admin@wchloecreativetalent.co.ke', 'contact@wchloecreativetalent.co.ke'];
-
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const auth = useAuth();
   const { user, isUserLoading } = useUser();
-  const isAdmin = user && adminEmails.includes(user.email || '');
+  const { isAdmin, isAdminLoading } = useAdmin();
 
   const isNavLinkActive = (href: string) => {
     return pathname.startsWith(href);
@@ -65,7 +64,7 @@ export default function Header() {
           ))}
         </nav>
         <div className="hidden md:flex items-center space-x-2">
-          {isUserLoading ? (
+          {isUserLoading || isAdminLoading ? (
             <div className="flex items-center gap-2">
               <Skeleton className="h-8 w-20" />
               <Skeleton className="h-8 w-20" />
@@ -141,7 +140,7 @@ export default function Header() {
                   </Link>
                 ))}
                 <div className="pt-4 border-t">
-                  {isUserLoading ? (
+                  {isUserLoading || isAdminLoading ? (
                     <div className="flex flex-col space-y-2">
                        <Skeleton className="h-10 w-full" />
                        <Skeleton className="h-10 w-full" />

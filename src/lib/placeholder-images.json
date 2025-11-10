@@ -33,8 +33,8 @@
     {
       "id": "talent-2-profile",
       "description": "Profile of David Ochieng",
-      "imageUrl": "https://images.unsplash.com/photo-1607031542107-f6f46b5d54e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjI3Mzg5NzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "man portrait"
+      "imageUrl": "https://wallpapers.com/images/hd/male-model-with-simpson-skateboard-je4adjzwqoyswsvn.jpg",
+      "imageHint": "male model"
     },
     {
       "id": "talent-2-portfolio-1",
@@ -45,7 +45,7 @@
     {
       "id": "talent-3-profile",
       "description": "Profile of Aisha Khan",
-      "imageUrl": "https://images.unsplash.com/photo-1611042553484-d61f84d22784?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmYXNoaW9uJTIwbW9kZWx8ZW58MHx8fHwxNzYyNjQ1MDc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://wallpapers.com/images/hd/kajal-aggarwal-bollywood-kbqan4b963wwwpqz.jpg",
       "imageHint": "fashion model"
     },
     {
@@ -57,7 +57,7 @@
     {
       "id": "talent-4-profile",
       "description": "Profile of Samuel L. Jackson (fictional)",
-      "imageUrl": "https://images.unsplash.com/photo-1615484800095-7f6bbb859637?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhY3RvciUyMHBvcnRyYWl0fGVufDB8fHx8MTc2Mjc1MDI4Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1615484800095-7f6bbb859637?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhY3RvciUyMHBvcnRyYWl0fGVufDB8fHx8MTc2Mjc1MDI4Mnww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "actor portrait"
     },
     {
@@ -93,13 +93,13 @@
     {
       "id": "blog-1-featured",
       "description": "Featured image for 'The Rise of African Creatives'",
-      "imageUrl": "https://images.unsplash.com/photo-1696586904914-075bb15acc40?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhZnJpY2FuJTIwYXJ0fGVufDB8fHx8MTc2Mjc1MDI4MXww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1696586904914-075bb15acc40?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhZnJpY2FuJTIwYXJ0fGVufDB8fHx8MTc2Mjc1MDI4MXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "african art"
     },
     {
       "id": "blog-2-featured",
       "description": "Featured image for 'Navigating the Digital Art Scene'",
-      "imageUrl": "https://images.unsplash.com/photo-1641984790242-d8aa477d306c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkaWdpdGFsJTIwYXJ0fGVufDB8fHx8MTc2MjczMDcyMnww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1641984790242-d8aa477d306c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkaWdpdGFsJTIwYXJ0fGVufDB8fHx8MTc2MjczMDcyMnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "digital art"
     },
     {

@@ -57,6 +57,11 @@
           "type": "string",
           "description": "The date and time the talent's profile was created.",
           "format": "date-time"
+        },
+        "rateCard": {
+          "type": "string",
+          "description": "URL to the talent's rate card document.",
+          "format": "uri"
         }
       },
       "required": [

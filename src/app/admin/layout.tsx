@@ -9,6 +9,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useUser, useAuth } from '@/firebase';
 import { signOut } from 'firebase/auth';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const adminNavLinks = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -123,17 +131,37 @@ export default function AdminLayout({
             <div className="ml-auto flex-1 sm:flex-initial">
                 {/* Search can go here */}
             </div>
-             <div className="flex items-center gap-4">
-                <p className="text-sm hidden sm:block">{user.email || 'Admin User'}</p>
-                <Avatar className="h-8 w-8">
-                    <AvatarImage src={user.photoURL || "https://picsum.photos/seed/admin/100/100"} />
-                    <AvatarFallback>{user.email?.charAt(0).toUpperCase() || 'A'}</AvatarFallback>
-                </Avatar>
-                <Button variant="ghost" size="icon" onClick={handleLogout}>
-                    <LogOut className="h-5 w-5" />
-                    <span className="sr-only">Logout</span>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Avatar className="h-8 w-8">
+                      <AvatarImage src={user.photoURL || "https://picsum.photos/seed/admin/100/100"} />
+                      <AvatarFallback>{user.email?.charAt(0).toUpperCase() || 'A'}</AvatarFallback>
+                  </Avatar>
                 </Button>
-            </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">Admin Account</p>
+                     <p className="text-xs leading-none text-muted-foreground">
+                      {user.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                   <Link href="/profile">View Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                   <Link href="/">View Site</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
         </div>
       </header>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">

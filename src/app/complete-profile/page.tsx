@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -136,7 +137,7 @@ export default function CompleteProfilePage() {
   }
 
   return (
-    <div className="relative w-full min-h-[calc(100vh-4rem)] flex items-center justify-center p-4">
+    <div className="relative w-full min-h-screen pt-16 pb-8 px-4">
       <Image
         src="https://wallpapers.com/images/hd/african-graffiti-art-9voko704yv7gt2fh.jpg"
         alt="African graffiti art"
@@ -146,7 +147,7 @@ export default function CompleteProfilePage() {
       />
       <div className="absolute inset-0 bg-black/50 -z-10" />
 
-      <div className="mx-auto grid w-full max-w-3xl gap-6 my-8">
+      <div className="mx-auto grid w-full max-w-3xl gap-6">
          <Card className="bg-card/90 backdrop-blur-sm">
           <CardHeader className="text-center">
             <CardTitle className="font-headline text-3xl md:text-4xl">Complete Your Profile</CardTitle>
@@ -344,3 +345,5 @@ export default function CompleteProfilePage() {
     </div>
   );
 }
+
+    

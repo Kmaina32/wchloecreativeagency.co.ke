@@ -1,0 +1,5 @@
+# See https://www.robotstxt.org/robotstxt.html for syntax
+User-agent: *
+Allow: /
+
+Sitemap: https://wchloe.com/sitemap.xml

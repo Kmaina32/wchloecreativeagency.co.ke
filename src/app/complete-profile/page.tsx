@@ -6,21 +6,19 @@ import { z } from 'zod';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
-import { useAuth, useFirestore } from '@/firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useAuth, useFirestore, useUser } from '@/firebase';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
-const joinFormSchema = z.object({
+const profileFormSchema = z.object({
   fullName: z.string().min(2, "Full name is required."),
-  email: z.string().email("Invalid email address."),
-  password: z.string().min(6, "Password must be at least 6 characters."),
   phone: z.string().min(10, "Please enter a valid phone number."),
   category: z.enum(['actress', 'artist', 'model', 'content-creator', 'photographer'], {
     errorMap: () => ({ message: "Please select a category." }),
@@ -29,38 +27,46 @@ const joinFormSchema = z.object({
   portfolioLink: z.string().url("Please enter a valid URL."),
 });
 
-type JoinFormValues = z.infer<typeof joinFormSchema>;
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-
-export default function JoinPage() {
+export default function CompleteProfilePage() {
   const auth = useAuth();
   const firestore = useFirestore();
+  const { user, isUserLoading } = useUser();
   const { toast } = useToast();
   const router = useRouter();
 
-  const form = useForm<JoinFormValues>({
-      resolver: zodResolver(joinFormSchema),
+  const form = useForm<ProfileFormValues>({
+      resolver: zodResolver(profileFormSchema),
       defaultValues: {
         fullName: '',
-        email: '',
-        password: '',
         phone: '',
         bio: '',
         portfolioLink: '',
       }
   });
 
-  const { formState: { errors } } = form;
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      router.replace('/login');
+    }
+  }, [user, isUserLoading, router]);
 
-  const onSubmit: SubmitHandler<JoinFormValues> = async (data) => {
+  const onSubmit: SubmitHandler<ProfileFormValues> = async (data) => {
+    if (!user) {
+      toast({
+        variant: "destructive",
+        title: "Not Authenticated",
+        description: "You must be logged in to complete your profile.",
+      });
+      return;
+    }
+
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      const user = userCredential.user;
-
       const talentData = {
         id: user.uid,
         name: data.fullName,
-        email: data.email,
+        email: user.email,
         phone: data.phone,
         category: data.category,
         bio: data.bio,
@@ -76,8 +82,8 @@ export default function JoinPage() {
       await setDoc(doc(firestore, "talents", user.uid), talentData);
 
       toast({
-        title: "Application Submitted!",
-        description: "Thank you for applying. We will review your profile and be in touch.",
+        title: "Profile Completed!",
+        description: "Thank you for submitting your profile. We will review it shortly.",
       });
 
       router.push('/talent');
@@ -86,10 +92,32 @@ export default function JoinPage() {
        toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
-        description: error.message || "Could not submit application.",
+        description: error.message || "Could not submit your profile.",
       });
     }
   };
+
+  if (isUserLoading || !user) {
+    return (
+        <div className="relative w-full min-h-[calc(100vh-4rem)] flex items-center justify-center p-4">
+             <div className="mx-auto grid w-full max-w-md gap-6">
+                <Card>
+                    <CardHeader>
+                        <Skeleton className="h-8 w-3/4 mx-auto" />
+                        <Skeleton className="h-4 w-full mt-2" />
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <Skeleton className="h-10 w-full" />
+                        <Skeleton className="h-10 w-full" />
+                        <Skeleton className="h-24 w-full" />
+                        <Skeleton className="h-10 w-full" />
+                        <Skeleton className="h-12 w-full" />
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+    )
+  }
 
   return (
     <div className="relative w-full min-h-[calc(100vh-4rem)] flex items-center justify-center p-4">
@@ -105,11 +133,9 @@ export default function JoinPage() {
       <div className="mx-auto grid w-full max-w-md gap-6">
          <Card className="bg-card/90 backdrop-blur-sm">
           <CardHeader className="text-center">
-            <CardTitle className="font-headline text-3xl md:text-4xl">Become a W. Chloe Creative</CardTitle>
+            <CardTitle className="font-headline text-3xl md:text-4xl">Complete Your Profile</CardTitle>
             <CardDescription className="pt-2">
-              If you are a talented artist, actor, model, or creator, we invite you to apply.
-              <br />
-              Complete the form below to start your journey with us.
+              Tell us more about yourself to become a W. Chloe Creative.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -128,35 +154,6 @@ export default function JoinPage() {
                     </FormItem>
                   )}
                 />
-                
-                <div className="grid sm:grid-cols-2 gap-4">
-                   <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email Address</FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="your.email@example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <Input type="password" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
                  <div className="grid sm:grid-cols-2 gap-4">
                    <FormField
                       control={form.control}
@@ -225,7 +222,9 @@ export default function JoinPage() {
                   )}
                 />
                 
-                <Button type="submit" className="w-full" size="lg">Submit Application</Button>
+                <Button type="submit" className="w-full" size="lg" disabled={form.formState.isSubmitting}>
+                  {form.formState.isSubmitting ? 'Submitting...' : 'Submit Profile'}
+                  </Button>
               </form>
             </Form>
           </CardContent>

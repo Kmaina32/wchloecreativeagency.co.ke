@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Sprout } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useUser } from '@/firebase';
 
 const navLinks = [
   { href: '/talent', label: 'Talent' },
@@ -15,6 +16,7 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
+  const { user, isUserLoading } = useUser();
 
   const isNavLinkActive = (href: string) => {
     return pathname.startsWith(href);
@@ -44,12 +46,21 @@ export default function Header() {
           ))}
         </nav>
         <div className="hidden md:flex items-center space-x-2">
-          <Button asChild variant="ghost">
-            <Link href="/login">Login</Link>
-          </Button>
-          <Button asChild>
-            <Link href="/join">Join as Talent</Link>
-          </Button>
+          {!isUserLoading && !user && (
+            <>
+              <Button asChild variant="ghost">
+                <Link href="/login">Login</Link>
+              </Button>
+              <Button asChild>
+                <Link href="/signup">Sign Up</Link>
+              </Button>
+            </>
+          )}
+           {!isUserLoading && user && (
+              <Button asChild>
+                <Link href="/admin/dashboard">Dashboard</Link>
+              </Button>
+           )}
         </div>
         <div className="md:hidden">
           <Sheet>
@@ -78,12 +89,21 @@ export default function Header() {
                   </Link>
                 ))}
                 <div className="flex flex-col space-y-2 pt-4 border-t">
-                    <Button asChild variant="outline">
-                        <Link href="/login">Login</Link>
-                    </Button>
+                  {!isUserLoading && !user && (
+                    <>
+                      <Button asChild variant="outline">
+                          <Link href="/login">Login</Link>
+                      </Button>
+                      <Button asChild>
+                          <Link href="/signup">Sign Up</Link>
+                      </Button>
+                    </>
+                  )}
+                  {!isUserLoading && user && (
                     <Button asChild>
-                        <Link href="/join">Join as Talent</Link>
+                      <Link href="/admin/dashboard">Dashboard</Link>
                     </Button>
+                  )}
                 </div>
               </div>
             </SheetContent>

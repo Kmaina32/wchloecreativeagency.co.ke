@@ -11,8 +11,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
-import { useAuth, useFirestore, useUser } from '@/firebase';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { useAuth, useFirestore, useUser, setDocumentNonBlocking } from '@/firebase';
+import { doc, serverTimestamp } from 'firebase/firestore';
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -37,7 +37,6 @@ const profileFormSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export default function CompleteProfilePage() {
-  const auth = useAuth();
   const firestore = useFirestore();
   const { user, isUserLoading } = useUser();
   const { toast } = useToast();
@@ -72,6 +71,10 @@ export default function CompleteProfilePage() {
       });
       return;
     }
+    if (!firestore) {
+        toast({ variant: "destructive", title: "Database not available" });
+        return;
+    }
 
     try {
       const talentData = {
@@ -96,7 +99,7 @@ export default function CompleteProfilePage() {
         createdAt: serverTimestamp(),
       };
 
-      await setDoc(doc(firestore, "talents", user.uid), talentData);
+      setDocumentNonBlocking(doc(firestore, "talents", user.uid), talentData, { merge: true });
 
       toast({
         title: "Profile Completed!",
@@ -149,7 +152,7 @@ export default function CompleteProfilePage() {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      <div className="mx-auto grid w-full max-w-sm gap-6">
+      <div className="mx-auto grid w-full max-w-3xl gap-6">
          <Card className="bg-card/50 backdrop-blur-sm">
           <CardHeader className="text-center">
             <CardTitle className="font-headline text-3xl md:text-4xl">Complete Your Profile</CardTitle>
@@ -159,22 +162,22 @@ export default function CompleteProfilePage() {
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="fullName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Full Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g., Patricia Wambui" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                 <div className="grid sm:grid-cols-2 gap-4">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                 <div className="grid sm:grid-cols-2 gap-6">
                    <FormField
+                      control={form.control}
+                      name="fullName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Full Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., Patricia Wambui" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
                       control={form.control}
                       name="phone"
                       render={({ field }) => (
@@ -187,7 +190,8 @@ export default function CompleteProfilePage() {
                         </FormItem>
                       )}
                     />
-                  <FormField
+                </div>
+                 <FormField
                     control={form.control}
                     name="category"
                     render={({ field }) => (
@@ -211,7 +215,6 @@ export default function CompleteProfilePage() {
                       </FormItem>
                     )}
                   />
-                </div>
 
                  <FormField
                     control={form.control}
@@ -226,114 +229,117 @@ export default function CompleteProfilePage() {
                       </FormItem>
                     )}
                   />
-
-                <CardTitle className="text-lg pt-4 border-t">Rates</CardTitle>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="rate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Starting Rate (Optional)</FormLabel>
-                        <FormControl>
-                           <Input type="number" placeholder="e.g., 500" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="currency"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Currency</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <div className="space-y-4 pt-4 border-t">
+                  <CardTitle className="text-lg">Rates</CardTitle>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="rate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Starting Rate (Optional)</FormLabel>
                           <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select Currency" />
-                            </SelectTrigger>
+                            <Input type="number" placeholder="e.g., 500" {...field} />
                           </FormControl>
-                          <SelectContent>
-                            <SelectItem value="USD">USD ($)</SelectItem>
-                            <SelectItem value="KES">KES (Ksh)</SelectItem>
-                            <SelectItem value="EUR">EUR (€)</SelectItem>
-                            <SelectItem value="GBP">GBP (£)</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="currency"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Currency</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select Currency" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="USD">USD ($)</SelectItem>
+                              <SelectItem value="KES">KES (Ksh)</SelectItem>
+                              <SelectItem value="EUR">EUR (€)</SelectItem>
+                              <SelectItem value="GBP">GBP (£)</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </div>
                 
-                <CardTitle className="text-lg pt-4 border-t">Social & Portfolio Links</CardTitle>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="instagram"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Instagram</FormLabel>
-                        <FormControl>
-                          <Input placeholder="https://instagram.com/yourprofile" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                   <FormField
-                    control={form.control}
-                    name="twitter"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>X (Twitter)</FormLabel>
-                        <FormControl>
-                          <Input placeholder="https://x.com/yourprofile" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="tiktok"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>TikTok</FormLabel>
-                        <FormControl>
-                          <Input placeholder="https://tiktok.com/@yourprofile" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                   <FormField
-                    control={form.control}
-                    name="facebook"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Facebook</FormLabel>
-                        <FormControl>
-                          <Input placeholder="https://facebook.com/yourprofile" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                   <FormField
-                    control={form.control}
-                    name="youtube"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>YouTube</FormLabel>
-                        <FormControl>
-                          <Input placeholder="https://youtube.com/yourchannel" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                 <div className="space-y-4 pt-4 border-t">
+                    <CardTitle className="text-lg">Social & Portfolio Links</CardTitle>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                    <FormField
+                        control={form.control}
+                        name="instagram"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Instagram</FormLabel>
+                            <FormControl>
+                            <Input placeholder="https://instagram.com/yourprofile" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="twitter"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>X (Twitter)</FormLabel>
+                            <FormControl>
+                            <Input placeholder="https://x.com/yourprofile" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="tiktok"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>TikTok</FormLabel>
+                            <FormControl>
+                            <Input placeholder="https://tiktok.com/@yourprofile" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="facebook"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Facebook</FormLabel>
+                            <FormControl>
+                            <Input placeholder="https://facebook.com/yourprofile" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="youtube"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>YouTube</FormLabel>
+                            <FormControl>
+                            <Input placeholder="https://youtube.com/yourchannel" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    </div>
                 </div>
                 
                 <Button type="submit" className="w-full" size="lg" disabled={form.formState.isSubmitting}>
@@ -347,3 +353,5 @@ export default function CompleteProfilePage() {
     </div>
   );
 }
+
+    

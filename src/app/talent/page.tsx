@@ -40,6 +40,7 @@ export default function TalentDirectoryPage() {
                 <SelectItem value="artist">Artist</SelectItem>
                 <SelectItem value="model">Model</SelectItem>
                 <SelectItem value="creator">Content Creator</SelectItem>
+                <SelectItem value="photographer">Photographer</SelectItem>
               </SelectContent>
             </Select>
           </div>

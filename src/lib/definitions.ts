@@ -2,7 +2,7 @@
 export type Talent = {
   id: string;
   name: string;
-  category: 'Actress' | 'Artist' | 'Model' | 'Content Creator';
+  category: 'Actress' | 'Artist' | 'Model' | 'Content Creator' | 'Photographer';
   bio: string;
   email: string;
   phone: string;

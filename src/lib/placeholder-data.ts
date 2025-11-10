@@ -59,8 +59,8 @@ export const talents: Talent[] = [
    {
     id: 'samuel-maina',
     name: 'Samuel Maina',
-    category: 'Content Creator',
-    bio: 'A popular YouTuber and content creator known for his witty commentary and engaging travel vlogs across Africa. He has a knack for capturing the continent\'s hidden gems.',
+    category: 'Photographer',
+    bio: 'A popular photographer and content creator known for his witty commentary and engaging travel vlogs across Africa. He has a knack for capturing the continent\'s hidden gems.',
     email: 'samuel@wcta.africa',
     phone: '+254733333333',
     socials: {
@@ -70,7 +70,7 @@ export const talents: Talent[] = [
     portfolio: [
        { image: 'talent-5-portfolio-1', caption: 'Filming in the Maasai Mara' },
     ],
-    profileImage: 'talent-5-profile',
+    profileImage: 'talent-samuel-profile',
     approved: false,
     createdAt: '2026-01-05T00:00:00Z',
   },

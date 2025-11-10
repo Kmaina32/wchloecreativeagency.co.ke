@@ -67,12 +67,6 @@
       "imageHint": "movie poster"
     },
     {
-      "id": "talent-5-profile",
-      "description": "Profile of Chloe Kim (fictional)",
-      "imageUrl": "https://images.unsplash.com/photo-1643306712585-0f0ed082ddc1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjcmVhdG9yJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYyNzA4OTM5fDA&ixlib-rb-4.1.0&q=80&w=1080",
-      "imageHint": "creator portrait"
-    },
-    {
       "id": "talent-5-portfolio-1",
       "description": "Chloe Kim creating content",
       "imageUrl": "https://images.unsplash.com/photo-1627244714766-94dab62ed964?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb250ZW50JTIwY3JlYXRvcnxlbnwwfHx8fDE3NjI3NTAyODF8MA&ixlib-rb-4.1.0&q=80&w=1080",
@@ -87,13 +81,19 @@
     {
       "id": "talent-zarram-portfolio-1",
       "description": "Zarram in a traditional attire shoot",
-      "imageUrl": "https://images.unsplash.com/photo-1650604363560-c6ecd9ad1b95?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxldGhpb3BpYW4lMjBmYXNoaW9ufGVufDB8fHx8MTc2Mjc1MTkwMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1650604363560-c6ecd9ad1b95?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxldGhpb3BpYW4lMjBmYXNoaW9ufGVufDB8fHx8MTc2Mjc1MTkwMXww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "ethiopian fashion"
+    },
+    {
+      "id": "talent-samuel-profile",
+      "description": "Profile of Samuel Maina, a photographer",
+      "imageUrl": "https://wallpapers.com/images/hd/african-iphone-gdulk9djvou0uvbj.jpg",
+      "imageHint": "man portrait"
     },
     {
       "id": "blog-1-featured",
       "description": "Featured image for 'The Rise of African Creatives'",
-      "imageUrl": "https://images.unsplash.com/photo-1696586904914-075bb15acc40?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhZnJpY2FuJTIwYXJ0fGVufDB8fHx8MTc2Mjc1MDI4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1696586904914-075bb15acc40?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhZnJpY2FuJTIwYXJ0fGVufDB8fHx8MTc2Mjc1MDI4MXww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "african art"
     },
     {

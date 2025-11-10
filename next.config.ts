@@ -45,6 +45,12 @@ const nextConfig: NextConfig = {
         hostname: 'continentclothing.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.tingatingaart.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

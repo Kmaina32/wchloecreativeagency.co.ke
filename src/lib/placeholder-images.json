@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "hero-background",
-      "description": "Abstract creative background",
-      "imageUrl": "https://images.unsplash.com/photo-1759246129604-d4bf46f6d7ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxhYnN0cmFjdCUyMGNyZWF0aXZlfGVufDB8fHx8MTc2MjY4MTQzNnww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "abstract creative"
+      "description": "Vibrant African cultural art",
+      "imageUrl": "https://www.tingatingaart.com/cdn/shop/articles/african_culture_2048x.jpg?v=1701245064",
+      "imageHint": "african art"
     },
     {
       "id": "auth-background",
@@ -57,7 +57,7 @@
     {
       "id": "talent-4-profile",
       "description": "Profile of Samuel L. Jackson (fictional)",
-      "imageUrl": "https://images.unsplash.com/photo-1615484800095-7f6bbb859637?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhY3RvciUyMHBvcnRyYWl0fGVufDB8fHx8MTc2Mjc1MDI4Mnww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1615484800095-7f6bbb859637?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhY3RvciUyMHBvcnRyYWl0fGVufDB8fHx8MTc2Mjc1MDI4Mnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "actor portrait"
     },
     {

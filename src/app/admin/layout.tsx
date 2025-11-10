@@ -1,11 +1,14 @@
 'use client';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Sprout, LayoutDashboard, Users, FileText, MessageSquare, Menu } from 'lucide-react';
+import { Sprout, LayoutDashboard, Users, FileText, MessageSquare, Menu, LogOut } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useUser, useAuth } from '@/firebase';
+import { signOut } from 'firebase/auth';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const adminNavLinks = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -20,14 +23,42 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const auth = useAuth();
+  const { user, isUserLoading } = useUser();
   
   const isLinkActive = (href: string) => {
-    // Make dashboard link active only on exact match
     if (href === '/admin/dashboard') {
         return pathname === href;
     }
     return pathname.startsWith(href);
   };
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    router.push('/login');
+  };
+
+  if (isUserLoading) {
+    return (
+        <div className="flex min-h-screen w-full flex-col bg-background">
+         <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-card px-4 md:px-6 z-50">
+            <Skeleton className="h-8 w-32" />
+            <div className="ml-auto">
+                <Skeleton className="h-8 w-8 rounded-full" />
+            </div>
+         </header>
+         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+            <Skeleton className="h-[400px] w-full" />
+         </main>
+        </div>
+    );
+  }
+
+  if (!user) {
+    router.replace('/login');
+    return null;
+  }
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -93,11 +124,15 @@ export default function AdminLayout({
                 {/* Search can go here */}
             </div>
              <div className="flex items-center gap-4">
-                <p className="text-sm hidden sm:block">Admin User</p>
+                <p className="text-sm hidden sm:block">{user.email || 'Admin User'}</p>
                 <Avatar className="h-8 w-8">
-                    <AvatarImage src="https://picsum.photos/seed/admin/100/100" />
-                    <AvatarFallback>AU</AvatarFallback>
+                    <AvatarImage src={user.photoURL || "https://picsum.photos/seed/admin/100/100"} />
+                    <AvatarFallback>{user.email?.charAt(0).toUpperCase() || 'A'}</AvatarFallback>
                 </Avatar>
+                <Button variant="ghost" size="icon" onClick={handleLogout}>
+                    <LogOut className="h-5 w-5" />
+                    <span className="sr-only">Logout</span>
+                </Button>
             </div>
         </div>
       </header>

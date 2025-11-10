@@ -1,6 +1,6 @@
-# W. Chloe Creative Hub
+# W. Chloe Creative Agency
 
-This is a web application for the W. Chloe Creative Hub, a creative talent agency. Built with Next.js, Firebase, and Tailwind CSS, it provides a platform to showcase talent, manage agency operations, and connect with clients.
+This is a web application for the W. Chloe Creative Agency, a creative talent agency. Built with Next.js, Firebase, and Tailwind CSS, it provides a platform to showcase talent, manage agency operations, and connect with clients.
 
 This project was bootstrapped with [Firebase Studio](https://firebase.google.com/studio).
 

@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import { FirebaseClientProvider } from '@/firebase';
 
 export const metadata: Metadata = {
-  title: 'W. Chloe Creative Hub',
+  title: 'W. Chloe Creative Agency',
   description: 'A creative talent agency for artists, actors, models, and content creators.',
   keywords: ['Creative Talent Africa', 'African Artists Agency', 'Kenya Talents', 'East Africa Creatives', 'W Chloe CTA'],
 };

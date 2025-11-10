@@ -80,7 +80,7 @@ export default function AdminLayout({
             className="flex items-center gap-2 text-lg font-semibold md:text-base"
           >
             <Sprout className="h-6 w-6 text-primary" />
-            <span className="sr-only">W. Chloe Creative Hub</span>
+            <span className="sr-only">W. Chloe Creative Agency</span>
           </Link>
           {adminNavLinks.map(link => (
              <Link

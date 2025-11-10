@@ -25,11 +25,14 @@ const navLinks = [
   { href: '/contact', label: 'Contact' },
 ];
 
+const adminEmails = ['gmaina424@gmail.com', 'pattynjoki25@gmail.com'];
+
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const auth = useAuth();
   const { user, isUserLoading } = useUser();
+  const isAdmin = user && adminEmails.includes(user.email || '');
 
   const isNavLinkActive = (href: string) => {
     return pathname.startsWith(href);
@@ -38,6 +41,7 @@ export default function Header() {
   const isHomePage = pathname === '/';
 
   const handleLogout = async () => {
+    if (!auth) return;
     await signOut(auth);
     router.push('/login');
   };
@@ -70,7 +74,7 @@ export default function Header() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                   <Avatar className="h-8 w-8">
-                     <AvatarImage src={user.photoURL || "https://picsum.photos/seed/user/100/100"} alt={user.email || 'User'} />
+                     <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} alt={user.email || 'User'} />
                      <AvatarFallback>{user.email?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
                   </Avatar>
                 </Button>
@@ -88,9 +92,11 @@ export default function Header() {
                 <DropdownMenuItem asChild>
                   <Link href="/profile">Profile</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                   <Link href="/admin/dashboard">Dashboard</Link>
-                </DropdownMenuItem>
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
+                     <Link href="/admin/dashboard">Dashboard</Link>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>
                   Log out
@@ -150,15 +156,17 @@ export default function Header() {
                       >
                         My Profile
                       </Link>
-                       <Link
-                        href="/admin/dashboard"
-                        className={cn(
-                          'text-lg transition-colors hover:text-primary',
-                          isNavLinkActive('/admin/dashboard') ? 'text-primary font-bold' : 'text-foreground'
-                        )}
-                      >
-                        Dashboard
-                      </Link>
+                      {isAdmin && (
+                        <Link
+                          href="/admin/dashboard"
+                          className={cn(
+                            'text-lg transition-colors hover:text-primary',
+                            isNavLinkActive('/admin/dashboard') ? 'text-primary font-bold' : 'text-foreground'
+                          )}
+                        >
+                          Dashboard
+                        </Link>
+                       )}
                        <Button onClick={handleLogout} variant="outline" className="w-full">
                         Logout
                       </Button>

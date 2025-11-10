@@ -1,3 +1,4 @@
+
 import { Talent, BlogPost, Message } from './definitions';
 
 export const talents: Talent[] = [
@@ -72,6 +73,23 @@ export const talents: Talent[] = [
     profileImage: 'talent-5-profile',
     approved: false,
     createdAt: '2026-01-05T00:00:00Z',
+  },
+  {
+    id: 'zarram-model',
+    name: 'Zarram',
+    category: 'Model',
+    bio: 'An Ethiopian model with a striking and unique look, Zarram brings a fresh and authentic presence to every campaign. Her work often highlights the rich cultural heritage of the Horn of Africa.',
+    email: 'zarram@wcta.africa',
+    phone: '+251912345678',
+    socials: {
+      instagram: 'https://instagram.com/zarram',
+    },
+    portfolio: [
+      { image: 'talent-zarram-portfolio-1', caption: 'Traditional attire shoot in Addis Ababa.' },
+    ],
+    profileImage: 'talent-zarram-profile',
+    approved: true,
+    createdAt: '2026-02-20T00:00:00Z',
   },
 ];
 

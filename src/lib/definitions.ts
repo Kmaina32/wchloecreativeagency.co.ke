@@ -1,3 +1,4 @@
+
 export type Talent = {
   id: string;
   name: string;
@@ -38,4 +39,11 @@ export type Message = {
   message: string;
   createdAt: string;
   read: boolean;
+};
+
+export type UserProfile = {
+  id: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'talent';
 };

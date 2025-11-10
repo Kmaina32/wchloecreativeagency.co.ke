@@ -1,7 +1,6 @@
 
 'use client';
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,6 +13,7 @@ import { useAuth } from '@/firebase';
 import { initiateEmailSignIn } from '@/firebase';
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),

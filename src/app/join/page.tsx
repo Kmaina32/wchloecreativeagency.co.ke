@@ -8,11 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
 
-export const metadata = {
-  title: 'Join as Talent | W. Chloe Creative Hub',
-  description: 'Apply to join our roster of creative talents.',
-};
-
 export default function JoinPage() {
   return (
     <div className="relative w-full min-h-[calc(100vh-4rem)] flex items-center justify-center p-4">

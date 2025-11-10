@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import Image from "next/image";
@@ -13,7 +14,6 @@ import { useAuth } from '@/firebase';
 import { initiateEmailSignIn } from '@/firebase';
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useToast } from "@/hooks/use-toast";
-import placeholderImages from "@/lib/placeholder-images.json";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
@@ -23,7 +23,6 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function LoginPage() {
-  const authImage = placeholderImages.placeholderImages.find(p => p.id === 'auth-background');
   const auth = useAuth();
   const { toast } = useToast();
 
@@ -48,11 +47,18 @@ export default function LoginPage() {
     }
   };
 
-
   return (
-     <div className="w-full lg:grid lg:min-h-[calc(100vh-4rem)] lg:grid-cols-2 xl:min-h-[calc(100vh-4rem)]">
-      <div className="flex items-center justify-center py-12">
-        <div className="mx-auto grid w-[350px] gap-6">
+     <div className="relative w-full min-h-[calc(100vh-4rem)] flex items-center justify-center p-4">
+        <Image
+          src="https://wallpapers.com/images/hd/african-graffiti-art-9voko704yv7gt2fh.jpg"
+          alt="African graffiti art"
+          layout="fill"
+          className="object-cover -z-10"
+          data-ai-hint="african graffiti"
+        />
+        <div className="absolute inset-0 bg-black/50 -z-10" />
+
+        <div className="mx-auto grid w-full max-w-sm gap-6">
            <Card>
             <CardHeader className="text-center">
                 <Link href="/" className="font-headline text-2xl font-bold text-primary flex items-center justify-center gap-2 mb-2">
@@ -115,18 +121,6 @@ export default function LoginPage() {
             </CardContent>
           </Card>
         </div>
-      </div>
-      <div className="hidden bg-muted lg:block relative">
-        {authImage && (
-          <Image
-            src={authImage.imageUrl}
-            alt={authImage.description}
-            layout="fill"
-            className="object-cover dark:brightness-[0.2] dark:grayscale"
-            data-ai-hint={authImage.imageHint}
-          />
-        )}
-      </div>
     </div>
   );
 }

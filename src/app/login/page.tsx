@@ -37,7 +37,7 @@ export default function LoginPage() {
   useEffect(() => {
     // Redirect if user is logged in
     if (!isUserLoading && user) {
-      router.push('/talent');
+      router.push('/');
     }
   }, [user, isUserLoading, router]);
 
@@ -46,6 +46,7 @@ export default function LoginPage() {
   };
   
   const handleGoogleLogin = async () => {
+    if (!auth) return;
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);

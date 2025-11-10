@@ -3,6 +3,7 @@ import { PlusCircle } from "lucide-react"
 import { talents } from "@/lib/placeholder-data"
 import { DataTable } from "./components/data-table"
 import { columns } from "./components/columns"
+import Link from "next/link"
 
 export default function AdminTalentPage() {
   return (
@@ -14,8 +15,10 @@ export default function AdminTalentPage() {
             Here you can add, edit, and manage all talent profiles.
           </p>
         </div>
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" /> Add Talent
+        <Button asChild>
+          <Link href="/admin/talent/new">
+            <PlusCircle className="mr-2 h-4 w-4" /> Add Talent
+          </Link>
         </Button>
       </div>
       <DataTable columns={columns} data={talents} />

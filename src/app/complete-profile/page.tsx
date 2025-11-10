@@ -117,7 +117,7 @@ export default function CompleteProfilePage() {
   if (isUserLoading || !user) {
     return (
         <div className="relative w-full min-h-screen flex items-center justify-center p-4">
-             <div className="mx-auto grid w-full max-w-md gap-6">
+             <div className="mx-auto grid w-full max-w-lg gap-6">
                 <Card>
                     <CardHeader>
                         <Skeleton className="h-8 w-3/4 mx-auto" />
@@ -147,8 +147,8 @@ export default function CompleteProfilePage() {
       />
       <div className="absolute inset-0 bg-black/50 -z-10" />
 
-      <div className="mx-auto grid w-full max-w-2xl gap-6">
-         <Card className="bg-card/90 backdrop-blur-sm">
+      <div className="mx-auto grid w-full max-w-lg gap-6">
+         <Card className="bg-card/80 backdrop-blur-sm">
           <CardHeader className="text-center">
             <CardTitle className="font-headline text-3xl md:text-4xl">Complete Your Profile</CardTitle>
             <CardDescription className="pt-2">
@@ -345,7 +345,3 @@ export default function CompleteProfilePage() {
     </div>
   );
 }
-
-    
-
-    

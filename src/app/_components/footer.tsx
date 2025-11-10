@@ -2,16 +2,8 @@
 
 import Link from 'next/link';
 import { Github, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
 
 export default function Footer() {
-  const isMobile = useIsMobile();
   return (
     <footer className="bg-card border-t">
       <div className="container mx-auto px-4 md:px-6 py-6">

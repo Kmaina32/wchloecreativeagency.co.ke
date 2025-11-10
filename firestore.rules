@@ -35,15 +35,15 @@ service cloud.firestore {
      * @description Allows talent to manage their own profiles and admins to manage all talent profiles.
      * @path /talents/{talentId}
      * @allow (create) Talent with matching talentId can create their profile. Auth: {uid: "talent123"}, Data: {id: "talent123"}
-     * @allow (get) Any signed-in user can read an approved talent profile. Auth: {uid: "user456"}
+     * @allow (get,list) Anyone can read an approved talent profile.
      * @allow (update,delete) Talent with matching talentId can update/delete their profile, and admins can update/delete any profile. Auth: {uid: "talent123"}, ResourceData: {id: "talent123"}
      * @deny (create) Talent tries to create a profile with a mismatched talentId. Auth: {uid: "talent123"}, Data: {id: "talent456"}
      * @deny (update,delete) Talent tries to update/delete another talent's profile. Auth: {uid: "talent123"}, ResourceData: {id: "talent456"}
      * @principle Enforces document ownership for writes and allows public read access.
      */
     match /talents/{talentId} {
-      allow get: if isSignedIn();
-      allow list: if isSignedIn();
+      allow get: if true;
+      allow list: if true;
 
       allow create: if isSignedIn() && isOwner(talentId) && request.resource.data.id == talentId;
       allow update, delete: if isSignedIn() && (isOwner(talentId) && isExistingOwner(talentId) || isAdmin());
@@ -60,8 +60,8 @@ service cloud.firestore {
      * @principle Enforces document ownership for writes and allows public read access.  Maintains Authorization Independence through data denormalization.
      */
     match /talents/{talentId}/portfolioItems/{portfolioItemId} {
-      allow get: if isSignedIn();
-      allow list: if isOwner(talentId);
+      allow get: if true;
+      allow list: if true;
 
       allow create: if isSignedIn() && isOwner(talentId) && request.resource.data.talentId == talentId;
       allow update, delete: if isSignedIn() && (isOwner(talentId) && isExistingOwner(talentId) && resource.data.talentId == talentId || isAdmin());
@@ -76,8 +76,8 @@ service cloud.firestore {
      * @principle Enforces role-based access control.
      */
     match /blogPosts/{blogPostId} {
-      allow get: if isSignedIn();
-      allow list: if isSignedIn();
+      allow get: if true;
+      allow list: if true;
 
       allow create, update, delete: if isSignedIn() && isAdmin();
     }

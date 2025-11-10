@@ -44,6 +44,17 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          {!isUserLoading && user && (
+            <Link
+              href="/admin/dashboard"
+              className={cn(
+                'transition-colors hover:text-primary',
+                isNavLinkActive("/admin/dashboard") ? 'text-primary font-bold' : 'text-foreground/60'
+              )}
+            >
+              Dashboard
+            </Link>
+          )}
         </nav>
         <div className="hidden md:flex items-center space-x-2">
           {!isUserLoading && !user && (
@@ -56,11 +67,6 @@ export default function Header() {
               </Button>
             </>
           )}
-           {!isUserLoading && user && (
-              <Button asChild>
-                <Link href="/admin/dashboard">Dashboard</Link>
-              </Button>
-           )}
         </div>
         <div className="md:hidden">
           <Sheet>
@@ -88,6 +94,17 @@ export default function Header() {
                     {link.label}
                   </Link>
                 ))}
+                 {!isUserLoading && user && (
+                    <Link
+                      href="/admin/dashboard"
+                      className={cn(
+                        'text-lg transition-colors hover:text-primary',
+                        isNavLinkActive('/admin/dashboard') ? 'text-primary font-bold' : 'text-foreground'
+                      )}
+                    >
+                      Dashboard
+                    </Link>
+                  )}
                 <div className="flex flex-col space-y-2 pt-4 border-t">
                   {!isUserLoading && !user && (
                     <>
@@ -98,11 +115,6 @@ export default function Header() {
                           <Link href="/signup">Sign Up</Link>
                       </Button>
                     </>
-                  )}
-                  {!isUserLoading && user && (
-                    <Button asChild>
-                      <Link href="/admin/dashboard">Dashboard</Link>
-                    </Button>
                   )}
                 </div>
               </div>

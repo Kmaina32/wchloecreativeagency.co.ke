@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -27,33 +28,37 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <section className="relative h-[60vh] md:h-[80vh] flex items-center justify-center text-center text-white">
-        {heroImage && (
-          <Image
-            src={heroImage.imageUrl}
-            alt={heroImage.description}
-            fill
-            className="object-cover"
-            priority
-            data-ai-hint={heroImage.imageHint}
-          />
-        )}
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 px-4">
-          <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight">
-            Where African Creativity Shines
-          </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-white/90">
-            Discover and collaborate with the most exceptional artists, actors, models, and creators from across the continent.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Button asChild size="lg">
-              <Link href="/talent">Explore Talent <ArrowRight className="ml-2 h-5 w-5" /></Link>
-            </Button>
-            <Button asChild size="lg" variant="secondary">
-              <Link href="/contact">Book a Creative</Link>
-            </Button>
-          </div>
+      <section className="relative flex items-center justify-center text-center text-white bg-background">
+        <div className="w-full p-4 pt-8 md:p-8">
+            <div className="relative h-[55vh] md:h-[75vh] w-full rounded-lg overflow-hidden">
+                {heroImage && (
+                <Image
+                    src={heroImage.imageUrl}
+                    alt={heroImage.description}
+                    fill
+                    className="object-cover"
+                    priority
+                    data-ai-hint={heroImage.imageHint}
+                />
+                )}
+                <div className="absolute inset-0 bg-black/50" />
+                <div className="relative z-10 flex flex-col items-center justify-center h-full px-4">
+                    <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight">
+                        Where African Creativity Shines
+                    </h1>
+                    <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-white/90">
+                        Discover and collaborate with the most exceptional artists, actors, models, and creators from across the continent.
+                    </p>
+                    <div className="mt-8 flex flex-wrap justify-center gap-4">
+                        <Button asChild size="lg">
+                        <Link href="/talent">Explore Talent <ArrowRight className="ml-2 h-5 w-5" /></Link>
+                        </Button>
+                        <Button asChild size="lg" variant="secondary">
+                        <Link href="/contact">Book a Creative</Link>
+                        </Button>
+                    </div>
+                </div>
+            </div>
         </div>
       </section>
 

@@ -3,16 +3,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useDoc, useFirestore, useMemoFirebase, useUser } from '@/firebase';
+import { useDoc, useFirestore, useMemoFirebase, useUser, setDocumentNonBlocking } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import type { Talent } from '@/lib/definitions';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Instagram, Twitter, Music, Mail, Phone, Edit, FileText } from 'lucide-react';
+import { Instagram, Twitter, Music, Mail, Phone, Edit, FileText, ShieldCheck } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import placeholderImagesData from '@/lib/placeholder-images.json';
 import { Facebook, Youtube } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { useAdmin } from '@/hooks/use-admin';
 
 const { placeholderImages } = placeholderImagesData;
 
@@ -73,6 +75,8 @@ export default function ProfilePage() {
   const router = useRouter();
   const firestore = useFirestore();
   const { user, isUserLoading } = useUser();
+  const { isAdmin, isAdminLoading } = useAdmin();
+  const { toast } = useToast();
 
   const talentDocRef = useMemoFirebase(() => {
     if (!firestore || !user) return null;
@@ -80,8 +84,24 @@ export default function ProfilePage() {
   }, [firestore, user]);
   
   const { data: talent, isLoading: isTalentLoading } = useDoc<Talent>(talentDocRef);
+  
+  const handleBecomeAdmin = async () => {
+    if (!firestore || !user) {
+        toast({ title: "Error", description: "You must be logged in.", variant: "destructive" });
+        return;
+    }
+    const adminRoleRef = doc(firestore, 'roles_admin', user.uid);
+    try {
+        setDocumentNonBlocking(adminRoleRef, { createdAt: new Date() }, { merge: true });
+        toast({ title: "Success", description: "You have been granted admin privileges. The page will now reload." });
+        setTimeout(() => window.location.reload(), 2000);
+    } catch (error: any) {
+        toast({ title: "Error", description: error.message, variant: "destructive" });
+    }
+  };
 
-  if (isUserLoading || isTalentLoading) {
+
+  if (isUserLoading || isTalentLoading || isAdminLoading) {
     return <ProfileSkeleton />;
   }
   
@@ -160,6 +180,12 @@ export default function ProfilePage() {
                     Edit Profile
                 </Link>
               </Button> 
+              {!isAdmin && (
+                  <Button onClick={handleBecomeAdmin} variant="secondary" className="mt-2 w-full">
+                      <ShieldCheck className="mr-2 h-4 w-4" />
+                      Become Admin
+                  </Button>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -235,3 +261,5 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+    

@@ -33,15 +33,15 @@ export default function Footer() {
             <div className="mt-4 space-y-2 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
                     <MapPin className="w-4 h-4" />
-                    <span>123 Creative Lane, Nairobi, Kenya</span>
+                    <span>Westlands, Nairobi</span>
                 </div>
                  <div className="flex items-center gap-2">
                     <Mail className="w-4 h-4" />
-                    <a href="mailto:hello@wcta.africa" className="hover:text-primary">hello@wcta.africa</a>
+                    <a href="mailto:pattynjoki25@gmail.com" className="hover:text-primary">pattynjoki25@gmail.com</a>
                 </div>
                  <div className="flex items-center gap-2">
                     <Phone className="w-4 h-4" />
-                    <span>+254 20 123 4567</span>
+                    <span>+254707858885</span>
                 </div>
             </div>
           </div>

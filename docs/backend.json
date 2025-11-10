@@ -1,0 +1,284 @@
+{
+  "entities": {
+    "Talent": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Talent",
+      "type": "object",
+      "description": "Represents a creative talent registered with the agency.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the talent.",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string",
+          "description": "The full name of the talent."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category of talent (e.g., Actor, Model, Musician)."
+        },
+        "bio": {
+          "type": "string",
+          "description": "A short biography of the talent."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the talent.",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string",
+          "description": "The phone number of the talent."
+        },
+        "instagram": {
+          "type": "string",
+          "description": "Instagram profile URL",
+          "format": "uri"
+        },
+        "twitter": {
+          "type": "string",
+          "description": "Twitter profile URL",
+          "format": "uri"
+        },
+        "portfolioItemIds": {
+          "type": "array",
+          "description": "References to PortfolioItem. (Relationship: Talent 1:N PortfolioItem)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "approved": {
+          "type": "boolean",
+          "description": "Indicates whether the talent's profile is approved by the admin."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The date and time the talent's profile was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "category",
+        "bio",
+        "email",
+        "phone",
+        "approved",
+        "createdAt"
+      ]
+    },
+    "PortfolioItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PortfolioItem",
+      "type": "object",
+      "description": "Represents an item in a talent's portfolio (e.g., image, video).",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the portfolio item."
+        },
+        "talentId": {
+          "type": "string",
+          "description": "Reference to Talent. (Relationship: Talent 1:N PortfolioItem)"
+        },
+        "image": {
+          "type": "string",
+          "description": "URL to the portfolio image.",
+          "format": "uri"
+        },
+        "caption": {
+          "type": "string",
+          "description": "Caption for the portfolio item."
+        }
+      },
+      "required": [
+        "id",
+        "talentId",
+        "image"
+      ]
+    },
+    "BlogPost": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "BlogPost",
+      "type": "object",
+      "description": "Represents a blog post published on the agency's website.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the blog post."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the blog post."
+        },
+        "content": {
+          "type": "string",
+          "description": "The content of the blog post."
+        },
+        "author": {
+          "type": "string",
+          "description": "The author of the blog post."
+        },
+        "publishedAt": {
+          "type": "string",
+          "description": "The date and time the blog post was published.",
+          "format": "date-time"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Tags associated with the blog post.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "content",
+        "author",
+        "publishedAt"
+      ]
+    },
+    "Message": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Message",
+      "type": "object",
+      "description": "Represents a message submitted through the contact form.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the message."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the message sender."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the message sender.",
+          "format": "email"
+        },
+        "subject": {
+          "type": "string",
+          "description": "The subject of the message."
+        },
+        "message": {
+          "type": "string",
+          "description": "The content of the message."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The date and time the message was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "subject",
+        "message",
+        "createdAt"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/talents/{talentId}",
+        "definition": {
+          "entityName": "Talent",
+          "schema": {
+            "$ref": "#/backend/entities/Talent"
+          },
+          "description": "Stores talent profiles. Talent can only edit their own profile, and admins have full access.",
+          "params": [
+            {
+              "name": "talentId",
+              "description": "Unique identifier for the talent."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/talents/{talentId}/portfolioItems/{portfolioItemId}",
+        "definition": {
+          "entityName": "PortfolioItem",
+          "schema": {
+            "$ref": "#/backend/entities/PortfolioItem"
+          },
+          "description": "Stores portfolio items associated with a specific talent. Includes denormalized 'talentId' for authorization independence.",
+          "params": [
+            {
+              "name": "talentId",
+              "description": "Unique identifier for the talent."
+            },
+            {
+              "name": "portfolioItemId",
+              "description": "Unique identifier for the portfolio item."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/blogPosts/{blogPostId}",
+        "definition": {
+          "entityName": "BlogPost",
+          "schema": {
+            "$ref": "#/backend/entities/BlogPost"
+          },
+          "description": "Stores blog posts. Only admins can create, edit, or delete blog posts.",
+          "params": [
+            {
+              "name": "blogPostId",
+              "description": "Unique identifier for the blog post."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/messages/{messageId}",
+        "definition": {
+          "entityName": "Message",
+          "schema": {
+            "$ref": "#/backend/entities/Message"
+          },
+          "description": "Stores messages submitted via the contact form. Only admins can view and manage messages.",
+          "params": [
+            {
+              "name": "messageId",
+              "description": "Unique identifier for the message."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admin/{uid}",
+        "definition": {
+          "entityName": "adminRole",
+          "schema": {
+            "$ref": "#/backend/entities/adminRole"
+          },
+          "description": "Collection used to define admin role. Existence of document indicates admin.",
+          "params": [
+            {
+              "name": "uid",
+              "description": "Firebase User ID"
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "This Firestore structure is designed to support the Creative Talent Agency Web App MVP, focusing on a secure, scalable, and easily manageable database.  The design emphasizes Authorization Independence by denormalizing access control data, eliminating the need for `get()` calls in security rules and enabling atomic operations.  Structural Segregation is used to maintain a homogeneous security posture within collections. Consistent Access Modeling with path-based ownership and the Membership Map pattern further simplifies and strengthens the security rules.\n\n*   `/talents/{talentId}`: Stores the core talent profiles. Authorization is based on direct talent ownership (talent can only edit their own profile) and admin access (admins can manage all talent profiles).\n*   `/talents/{talentId}/portfolioItems/{portfolioItemId}`:  Stores portfolio items associated with talent profiles. `talentId` is denormalized into each `portfolioItem` to maintain Authorization Independence.\n*   `/blogPosts/{blogPostId}`:  Stores blog posts.  Access is restricted to admins for creation, modification, and deletion.\n*   `/messages/{messageId}`: Stores messages submitted via the contact form. Access is restricted to admins for review and management.\n*   `/roles_admin/{uid}`: A presence-based role assignment. If a document exists with the `uid` as the document id in the collection, the user is an admin.\n\nQAPs (Rules are not Filters) are achieved as follows:\n\n*   Talent Directory Listing: The `talents` collection can be listed securely, as access to individual talent documents is governed by the `approved` field.  Only approved talents would be visible to the public.\n*   Admin Dashboard Access: Access to the admin dashboard features (talent management, blog management, messages) is controlled by checking for the existence of a document in the `/roles_admin/{uid}` collection. The application backend is responsible for restricting the front end views."
+  }
+}

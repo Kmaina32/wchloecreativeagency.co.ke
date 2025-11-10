@@ -146,7 +146,7 @@ service cloud.firestore {
      * @return {boolean} True if the user is an admin, false otherwise.
      */
     function isAdmin() {
-      return request.auth.token.email == 'gmaina424@gmail.com' || request.auth.token.email == 'pattynjoki25@gmail.com';
+      return request.auth.token.email == 'admin@wchloecreativetalent.co.ke' || request.auth.token.email == 'contact@wchloecreativetalent.co.ke';
     }
   }
 }

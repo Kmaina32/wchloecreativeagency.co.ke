@@ -25,7 +25,7 @@ const navLinks = [
   { href: '/contact', label: 'Contact' },
 ];
 
-const adminEmails = ['gmaina424@gmail.com', 'pattynjoki25@gmail.com'];
+const adminEmails = ['admin@wchloecreativetalent.co.ke', 'contact@wchloecreativetalent.co.ke'];
 
 export default function Header() {
   const pathname = usePathname();

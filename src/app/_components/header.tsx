@@ -38,8 +38,6 @@ export default function Header() {
     return pathname.startsWith(href);
   };
   
-  const isHomePage = pathname === '/';
-
   const handleLogout = async () => {
     if (!auth) return;
     await signOut(auth);
@@ -47,9 +45,9 @@ export default function Header() {
   };
 
   return (
-    <header className={cn("bg-transparent sticky top-0 z-40 border-b", { "bg-background/80 backdrop-blur-sm": !isHomePage })}>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="font-headline text-2xl font-bold text-primary bg-foreground/10 backdrop-blur-sm border border-foreground/10 rounded-lg px-4 py-1">
+        <Link href="/" className="font-headline text-2xl font-bold text-primary">
           W. Chloe
         </Link>
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
@@ -59,21 +57,24 @@ export default function Header() {
               href={link.href}
               className={cn(
                 'transition-colors hover:text-primary',
-                isNavLinkActive(link.href) ? 'text-primary font-bold' : 'text-foreground/60'
+                isNavLinkActive(link.href) ? 'text-primary font-semibold' : 'text-foreground/60'
               )}
             >
               {link.label}
             </Link>
           ))}
         </nav>
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-2">
           {isUserLoading ? (
-            <Skeleton className="h-8 w-20" />
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-8 w-20" />
+              <Skeleton className="h-8 w-20" />
+            </div>
           ) : user ? (
              <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <Avatar className="h-8 w-8">
+                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                  <Avatar className="h-10 w-10">
                      <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} alt={user.email || 'User'} />
                      <AvatarFallback>{user.email?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
                   </Avatar>
@@ -124,7 +125,7 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="right">
               <div className="flex flex-col space-y-4 p-4">
-                <Link href="/" className="font-headline text-2xl font-bold text-primary mb-4 bg-foreground/10 backdrop-blur-sm border border-foreground/10 rounded-lg px-4 py-1 self-start">
+                <Link href="/" className="font-headline text-2xl font-bold text-primary mb-4 self-start">
                   W. Chloe
                 </Link>
                 {navLinks.map((link) => (
@@ -147,20 +148,30 @@ export default function Header() {
                     </div>
                   ) : user ? (
                     <div className="space-y-4">
+                       <div className="flex items-center gap-3">
+                         <Avatar className="h-10 w-10">
+                           <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} alt={user.email || 'User'} />
+                           <AvatarFallback>{user.email?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
+                         </Avatar>
+                         <div>
+                            <p className="text-sm font-medium leading-none">My Account</p>
+                            <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                         </div>
+                       </div>
                        <Link
                         href="/profile"
                         className={cn(
-                          'text-lg transition-colors hover:text-primary',
+                          'block text-lg transition-colors hover:text-primary',
                           isNavLinkActive('/profile') ? 'text-primary font-bold' : 'text-foreground'
                         )}
                       >
-                        My Profile
+                        Profile
                       </Link>
                       {isAdmin && (
                         <Link
                           href="/admin/dashboard"
                           className={cn(
-                            'text-lg transition-colors hover:text-primary',
+                            'block text-lg transition-colors hover:text-primary',
                             isNavLinkActive('/admin/dashboard') ? 'text-primary font-bold' : 'text-foreground'
                           )}
                         >
